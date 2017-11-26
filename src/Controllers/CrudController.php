@@ -1,5 +1,13 @@
 <?php
-
+/**
+ * This file is part of Knowfox CRUD, a CRUD package for Laravel
+ * Copyright (C) 2017 Olav Schettler <olav@schettler.net>
+ *
+ * This source code is subject to the terms of the GNU
+ * LESSER GENERAL PUBLIC LICENSE Version 3.
+ * If a copy of the LGPLv3 was not distributed
+ * with this file, You can obtain one at https://opensource.org/licenses/LGPL-3.0
+ */
 namespace Knowfox\Crud\Controllers;
 
 use Knowfox\Crud\Models\Setting;
@@ -118,7 +126,7 @@ class CrudController extends Controller
 
         $page_title = 'Neue' . $this->setup->entity_title[0];
         $breadcrumbs['#create'] = $page_title;
-        
+
         return view($this->viewName('create'), [
             'page_title' => $page_title,
             'entity_name' => $this->setup->entity_name,
