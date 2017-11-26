@@ -17,5 +17,12 @@
         "psr-4": {
             "Knowfox\\Crud\\": "src/"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Knowfox\\Crud\\ServiceProvider"
+            ]
+        }
     }
 }
