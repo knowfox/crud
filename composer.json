@@ -1,0 +1,21 @@
+{
+    "name": "knowfox/crud",
+    "description": "A CRUD generator for Laravel",
+    "type": "library",
+    "require": {
+        "illuminate/support": "^5.4"
+    },
+    "license": "LGPL v3",
+    "authors": [
+        {
+            "name": "Olav Schettler",
+            "email": "olav@schettler.net"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Knowfox\\Crud\\": "src/"
+        }
+    }
+}
