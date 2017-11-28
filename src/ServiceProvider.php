@@ -17,6 +17,7 @@ class ServiceProvider extends IlluminateServiceProvider
         $this->loadMigrationsFrom(__DIR__ . '/../migrations');
         $this->loadViewsFrom(__DIR__ . '/../views', 'crud');
         $this->loadRoutesFrom(__DIR__ . '/../routes.php');
+        $this->loadTranslationsFrom(__DIR__ . '/../translations', 'crud');
     }
 
     public function register()

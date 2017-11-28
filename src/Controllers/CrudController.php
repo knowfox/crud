@@ -10,6 +10,8 @@
  */
 namespace Knowfox\Crud\Controllers;
 
+use App\Models\Idea;
+use App\Models\Inventor;
 use Knowfox\Crud\Models\Setting;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Model;
@@ -97,7 +99,7 @@ class CrudController extends Controller
             'has_create' => $has_create,
             'create' => [
                 'route' => route($this->setup->entity_name . '.create'),
-                'title' => 'Neue' . $this->setup->entity_title[0],
+                'title' => __('New :entity_title', ['entity_title' => $this->setup->entity_title[0]]),
             ],
             'deletes' => !empty($this->setup->deletes) && $this->setup->deletes,
             'no_result' => 'Keine ' . $this->setup->entity_title[1],
@@ -124,7 +126,7 @@ class CrudController extends Controller
 
         $breadcrumbs[route($this->setup->entity_name . '.index')] = $this->setup->entity_title[1];
 
-        $page_title = 'Neue' . $this->setup->entity_title[0];
+        $page_title = __('New :entity_title', ['entity_title' => $this->setup->entity_title[0]]);
         $breadcrumbs['#create'] = $page_title;
 
         return view($this->viewName('create'), [
@@ -137,11 +139,25 @@ class CrudController extends Controller
         ]);
     }
 
+    private function deferredAssign(&$name, $value)
+    {
+        if (is_callable($value)) {
+            $name = $value();
+        }
+        else {
+            $name = $value;
+        }
+    }
+
     protected function withDefaults($input)
     {
         foreach ($this->setup->fields as $key => $info) {
+            if (isset($this->setup->fields[$key]['force'])) {
+                $this->deferredAssign($input[$key], $this->setup->fields[$key]['force']);
+            }
+            else
             if (empty($input[$key]) && isset($this->setup->fields[$key]['default'])) {
-                $input[$key] = $this->setup->fields[$key]['default'];
+                $this->deferredAssign($input[$key], $this->setup->fields[$key]['default']);
             }
         }
         return $input;
@@ -160,7 +176,7 @@ class CrudController extends Controller
             $model = $this->setup->model::create($this->withDefaults($request->all()));
         }
         else {
-            $model = (new $this->setup->model)
+            $model = (new $model_name)
                 ->fill($this->withDefaults($request->all()));
         }
 
@@ -171,7 +187,9 @@ class CrudController extends Controller
         return [
             $model,
             response()->redirectToRoute($this->setup->entity_name . '.index')
-                ->with('status', 'Neue' . $this->setup->entity_title[0] . ' angelegt')
+                ->with('status', __('New :entity_title created', [
+                    'entity_title' => $this->setup->entity_title[0]
+                ]))
         ];
     }
 

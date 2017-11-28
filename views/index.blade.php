@@ -1,19 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-fluid">
-        @include('crud::partials.messages')
-        @include('crud::partials.breadcrumbs')
+    <div class="container">
 
-        <div class="page-header">
-            @if ($has_create)
-                <div class="pull-right">
-                    <a href="{{ $create['route'] }}" class="btn btn-default">
-                        <i class="glyphicon glyphicon-plus"></i> {{ $create['title'] }}
-                    </a>
-                </div>
-            @endif
-            <h1>{{$page_title}}</h1>
+        <div class="row">
+            <div class="col-lg-12">
+
+                @if ($has_create)
+                    <div class="pull-right mt-4">
+                        <a href="{{ $create['route'] }}" class="btn btn-default">
+                            <i class="glyphicon glyphicon-plus"></i> {{ $create['title'] }}
+                        </a>
+                    </div>
+                @endif
+
+                <h1 class="page-header">{!! $page_title !!}</h1>
+                @include('crud::partials.breadcrumbs')
+                @include('crud::partials.messages')
+            </div>
         </div>
 
         <div class="row">
