@@ -1,4 +1,4 @@
-<a class="btn btn-default" href="{{ route($entity_name . '.edit', ['id' => $entity_id]) }}">
+<a class="btn btn-default" href="{{ route($entity_name . '.edit', $entity) }}">
     <i class="glyphicon glyphicon-pencil"></i> Bearbeiten
 </a>
 @if ($deletes)

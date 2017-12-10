@@ -76,7 +76,7 @@
                                         @endforeach
                                         <td class="text-right" style="white-space: nowrap">
                                             @if (!isset($entity->readonly) || !$entity->readonly)
-                                                @include('crud::partials.actions', ['entity_id' => $entity->id])
+                                                @include('crud::partials.actions', ['entity' => $entity])
                                             @endif
                                         </td>
                                     </tr>

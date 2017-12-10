@@ -205,7 +205,7 @@ class CrudController extends Controller
     public function editCrud(Model $entity, $options = [])
     {
         $page_title = __(
-            (!empty($options['verb']) ? $options['verb'] : 'bearbeiten')
+            (!empty($options['verb']) ? $options['verb'] : 'Edit')
             . ' ' . $this->stripPrefix($this->setup->entity_title[0])
         );
 
@@ -254,7 +254,9 @@ class CrudController extends Controller
         }
 
         return response()->redirectToRoute($this->setup->entity_name . '.index')
-            ->with('status', 'Änderungen an ' . $this->stripPrefix($this->setup->entity_title[0]) . ' gespeichert');
+            ->with('status', __('Changes to :entity_title saved', [
+                    'entity_title' => $this->stripPrefix($this->setup->entity_title[0])
+                ]));
     }
 
     /**
