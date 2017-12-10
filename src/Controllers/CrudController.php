@@ -30,6 +30,8 @@ class CrudController extends Controller
 
     public function __construct()
     {
+        parent::__construct();
+
         $app_version = config('app.version');
         $schema_version = Setting::where('name', 'version')->pluck('value')->first();
 
@@ -82,13 +84,13 @@ class CrudController extends Controller
         }
 
         $breadcrumbs = [
-            route('home') => 'Start',
+            route('home') => __('Start'),
         ];
         if (!empty($this->setup->is_admin) && $this->setup->is_admin) {
-            $breadcrumbs['#'] = 'Verwaltung';
+            $breadcrumbs['#'] = __('Manage');
         }
 
-        $page_title = $this->setup->entity_title[1];
+        $page_title = __($this->setup->entity_title[1]);
         $breadcrumbs['#index'] = $page_title;
 
         $has_create = !isset($this->setup->has_create) || $this->setup->has_create;
@@ -107,6 +109,7 @@ class CrudController extends Controller
             'entities' => $entities->paginate(),
             'context' => $this->context,
             'breadcrumbs' => $breadcrumbs,
+            'show' => !empty($this->setup->show) && $this->setup->show,
         ]);
     }
 
@@ -118,10 +121,10 @@ class CrudController extends Controller
     public function createCrud($entity = null)
     {
         $breadcrumbs = [
-            route('home') => 'Start',
+            route('home') => __('Start'),
         ];
         if (!empty($this->setup->is_admin) && $this->setup->is_admin) {
-            $breadcrumbs['#'] = 'Verwaltung';
+            $breadcrumbs['#'] = __('Manage');
         }
 
         $breadcrumbs[route($this->setup->entity_name . '.index')] = $this->setup->entity_title[1];
@@ -201,21 +204,23 @@ class CrudController extends Controller
      */
     public function editCrud(Model $entity, $options = [])
     {
-        $page_title = $this->stripPrefix($this->setup->entity_title[0])
-            . ' ' . (!empty($options['verb']) ? $options['verb'] : 'bearbeiten');
+        $page_title = __(
+            (!empty($options['verb']) ? $options['verb'] : 'bearbeiten')
+            . ' ' . $this->stripPrefix($this->setup->entity_title[0])
+        );
 
         if (isset($options['breadcrumbs'])) {
             $breadcrumbs = $options['breadcrumbs'];
         }
         else {
             $breadcrumbs = [
-                route('home') => 'Start',
+                route('home') => __('Start'),
             ];
             if (!empty($this->setup->is_admin) && $this->setup->is_admin) {
-                $breadcrumbs['#'] = 'Verwaltung';
+                $breadcrumbs['#'] = __('Manage');
             }
 
-            $breadcrumbs[route($this->setup->entity_name . '.index')] = $this->setup->entity_title[1];
+            $breadcrumbs[route($this->setup->entity_name . '.index')] = __($this->setup->entity_title[1]);
             $breadcrumbs['#edit'] = $page_title;
         }
 
@@ -262,6 +267,6 @@ class CrudController extends Controller
     {
         $entity->delete();
         return response()->redirectToRoute($this->setup->entity_name . '.index')
-            ->with('status', $this->stripPrefix($this->setup->entity_title[0]) . ' gelöscht');
+            ->with('status', __($this->stripPrefix($this->setup->entity_title[0]) . ' deleted'));
     }
 }

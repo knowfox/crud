@@ -9,7 +9,7 @@
                 @if ($has_create)
                     <div class="pull-right mt-4">
                         <a href="{{ $create['route'] }}" class="btn btn-default">
-                            <i class="glyphicon glyphicon-plus"></i> {{ $create['title'] }}
+                            <i class="glyphicon glyphicon-plus"></i> {{ __($create['title']) }}
                         </a>
                     </div>
                 @endif
@@ -53,6 +53,7 @@
                                     <tr>
                                         @foreach ($cols as $col => $info)
                                             <td>
+                                                <?php ob_start(); ?>
                                                 @if ($info['type'] == 'money')
                                                     {{ number_format($entity->{$col}, 2, ',', '.') }} €
                                                 @else
@@ -62,6 +63,15 @@
                                                         {{ $entity->{$col} }}
                                                     @endif
                                                 @endif
+                                                <?php
+                                                    $value = ob_get_clean();
+                                                    if ($show) {
+                                                        ?><a href="{{ route($entity_name . '.show', $entity) }}">{{ $value }}</a><?php
+                                                    }
+                                                    else {
+                                                        echo $value;
+                                                    }
+                                                ?>
                                             </td>
                                         @endforeach
                                         <td class="text-right" style="white-space: nowrap">
