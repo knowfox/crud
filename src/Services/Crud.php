@@ -8,7 +8,7 @@
  * If a copy of the LGPLv3 was not distributed
  * with this file, You can obtain one at https://opensource.org/licenses/LGPL-3.0
  */
-namespace Knowfox\Crud\Controllers;
+namespace Knowfox\Crud\Services;
 
 use App\Models\Idea;
 use App\Models\Inventor;
@@ -18,10 +18,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Http\FormRequest as Request;
 use Illuminate\Support\Facades\Artisan;
 
-class CrudController extends Controller
+class Crud
 {
     protected $setup;
     protected $context = null;
+
+    public function setup($options)
+    {
+        $this->setup = (object)config($options);
+    }
 
     private function stripPrefix($text)
     {
@@ -30,8 +35,6 @@ class CrudController extends Controller
 
     public function __construct()
     {
-        parent::__construct();
-
         $app_version = config('app.version');
         $schema_version = Setting::where('name', 'version')->pluck('value')->first();
 
@@ -118,7 +121,7 @@ class CrudController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function createCrud($entity = null)
+    public function create($entity = null)
     {
         $breadcrumbs = [
             route('home') => __('Start'),
@@ -173,7 +176,7 @@ class CrudController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function storeCrud(Request $request, $persist = true)
+    public function store(Request $request, $persist = true)
     {
         if ($persist) {
             $model = $this->setup->model::create($this->withDefaults($request->all()));
@@ -202,7 +205,7 @@ class CrudController extends Controller
      * @param  \App\Models\Car  $car
      * @return \Illuminate\Http\Response
      */
-    public function editCrud(Model $entity, $options = [])
+    public function edit(Model $entity, $options = [])
     {
         $page_title = __(
             (!empty($options['verb']) ? $options['verb'] : 'Edit')
@@ -243,7 +246,7 @@ class CrudController extends Controller
      * @param  \App\Models\Car  $car
      * @return \Illuminate\Http\Response
      */
-    public function updateCrud(Request $request, Model $entity)
+    public function update(Request $request, Model $entity)
     {
         $entity->update(
             $this->withDefaults($request->all())
@@ -265,7 +268,7 @@ class CrudController extends Controller
      * @param  \App\Models\Car  $car
      * @return \Illuminate\Http\Response
      */
-    public function destroyCrud(Model $entity)
+    public function destroy(Model $entity)
     {
         $entity->delete();
         return response()->redirectToRoute($this->setup->entity_name . '.index')

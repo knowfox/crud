@@ -18,9 +18,16 @@ class ServiceProvider extends IlluminateServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../views', 'crud');
         $this->loadRoutesFrom(__DIR__ . '/../routes.php');
         $this->loadTranslationsFrom(__DIR__ . '/../translations', 'crud');
+
+        $this->publishes([
+            __DIR__ . '/../crud.php' => config_path('crud.php'),
+        ], 'config');
     }
 
     public function register()
     {
+        $this->mergeConfigFrom(
+            __DIR__ . '/../setting.php', 'crud'
+        );
     }
 }

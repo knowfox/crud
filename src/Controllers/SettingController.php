@@ -2,71 +2,45 @@
 
 namespace Knowfox\Crud\Controllers;
 
+use App\Http\Controllers\Controller;
 use Knowfox\Crud\Requests\SettingRequest;
 use Knowfox\Crud\Models\Setting;
+use Knowfox\Crud\Services\Crud;
 
-class SettingController extends CrudController
+class SettingController extends Controller
 {
-    public function __construct()
+    protected $crud;
+
+    public function __construct(Crud $crud)
     {
         parent::__construct();
-
-        $this->setup = (object)[
-            'is_admin' => true,
-            'has_create' => false,
-            'model' => Setting::class,
-            'package_name' => 'crud',
-            'entity_name' => 'setting',
-            'entity_title' => [' Einstellung', 'Einstellungen'], // singular, plural
-            'order_by' => 'name',
-
-            'columns' => [
-                'translatedName' => 'Name',
-                'prettyValue' => 'Wert',
-                'translatedField' => 'Feldtyp',
-            ],
-
-            'fields' => [
-                'name' => [
-                    'label' => 'Name',
-                    'type' => 'show',
-                ],
-                'field' => [
-                    'label' => 'Feldtyp',
-                    'type' => 'select',
-                    'options' => 'setting_types',
-                ],
-                'value' => [
-                    'label' => 'Wert',
-                    'type' => 'setting_value',
-                ],
-            ],
-        ];
+        $this->crud = $crud;
+        $this->crud->setup('crud.setting');
     }
 
     public function create()
     {
-        return $this->createCrud();
+        return $this->crud->create();
     }
 
     public function store(SettingRequest $request)
     {
-        list($ride, $response) = $this->storeCrud($request);
+        list($setting, $response) = $this->crud->store($request);
         return $response;
     }
 
     public function edit(Setting $setting)
     {
-        return $this->editCrud($setting);
+        return $this->crud->edit($setting);
     }
 
     public function update(SettingRequest $request, Setting $setting)
     {
-        return $this->updateCrud($request, $setting);
+        return $this->crud->update($request, $setting);
     }
 
     public function destroy(Setting $setting)
     {
-        return $this->destroyCrud($setting);
+        return $this->crud->destroy($setting);
     }
 }
