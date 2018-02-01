@@ -28,6 +28,11 @@ class Crud
         $this->setup = (object)config($options);
     }
 
+    public function option($name, $value)
+    {
+        $this->setup->{$name} = $value;
+    }
+
     private function stripPrefix($text)
     {
         return preg_replace('/^\S* /', '', $text);
@@ -76,6 +81,10 @@ class Crud
         }
         else {
             $entities = $this->setup->model::orderBy($order_by[0], 'asc');
+        }
+
+        if (isset($this->setup->filter) && is_callable($this->setup->filter)) {
+            call_user_func($this->setup->filter, $entities);
         }
 
         if (!empty($this->setup->with)) {
@@ -142,6 +151,7 @@ class Crud
             'fields' => $this->setup->fields,
             'entity' => $entity,
             'breadcrumbs' => $breadcrumbs,
+            'has_file' => !empty($this->setup->has_file) && $this->setup->has_file,
         ]);
     }
 
@@ -169,6 +179,23 @@ class Crud
         return $input;
     }
 
+    private function saveFile($request, $entity)
+    {
+        if ($request->hasFile('file')) {
+            $file = $request->file;
+            if (!$file->isValid()) {
+                return 'Could not upload file';
+            }
+            else
+            if (strpos($file->getMimeType(), 'image/') !== 0) {
+                return 'Uploaded file is not an image';
+            }
+
+            $entity->clearMediaCollection('images');
+            $entity->addMedia($file->path())->toMediaCollection('images');
+        }
+        return null;
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -184,6 +211,15 @@ class Crud
         else {
             $model = (new $model_name)
                 ->fill($this->withDefaults($request->all()));
+        }
+
+        $error = $this->saveFile($request, $model);
+        if ($error) {
+            return [
+                $model,
+                response()->redirectToRoute($this->setup->entity_name . '.index')
+                    ->with('error', $error)
+            ];
         }
 
         if ($request->format() == 'json') {
@@ -236,6 +272,7 @@ class Crud
             'button' => !empty($options['button']) ? $options['button'] : null,
             'breadcrumbs' => $breadcrumbs,
             'bottom' => !empty($options['bottom']) ? $options['bottom'] : null,
+            'has_file' => !empty($this->setup->has_file) && $this->setup->has_file,
         ]);
     }
 
@@ -251,6 +288,12 @@ class Crud
         $entity->update(
             $this->withDefaults($request->all())
         );
+
+        $error = $this->saveFile($request, $entity);
+        if ($error) {
+            return response()->redirectToRoute($this->setup->entity_name . '.index')
+                ->with('error', $error);
+        }
 
         if ($request->format() == 'json') {
             return $entity;

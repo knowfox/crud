@@ -27,7 +27,7 @@ class ServiceProvider extends IlluminateServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../setting.php', 'crud'
+            __DIR__ . '/../setting.php', 'crud.setting'
         );
     }
 }

@@ -3,10 +3,10 @@
 return [
     'is_admin' => true,
     'has_create' => false,
-    'model' => Setting::class,
+    'model' => \Knowfox\Crud\Models\Setting::class,
     'package_name' => 'crud',
     'entity_name' => 'setting',
-    'entity_title' => [' Einstellung', 'Einstellungen'], // singular, plural
+    'entity_title' => [' Setting', 'Settings'], // singular, plural
     'order_by' => 'name',
 
     'columns' => [

@@ -1,7 +1,17 @@
+@if ($has_file)
+    <div class="row">
+        <div class="col-md-12 dropzone-previews"></div>
+    </div>
+@endif
+
+@php
+    $form_attributes = $has_file ? ' id="dropzone" class="dropzone"' : '';
+@endphp
+
 @if ($mode == 'create' || !empty($action))
-    <form enctype="multipart/form-data" action="{{ !empty($action) ? $action : route($entity_name . '.store') }}" method="{{ !empty($method) ? $method : 'POST' }}">
+    <form{!! $form_attributes !!} enctype="multipart/form-data" action="{{ !empty($action) ? $action : route($entity_name . '.store') }}" method="{{ !empty($method) ? $method : 'POST' }}">
 @else
-    <form enctype="multipart/form-data" action="{{ route($entity_name . '.update', [$entity])}}" method="POST">
+    <form{!! $form_attributes !!} enctype="multipart/form-data" action="{{ route($entity_name . '.update', [$entity])}}" method="POST">
         <input type="hidden" name="_method" value="PUT">
 @endif
     @if (empty($method) || $method != 'GET')

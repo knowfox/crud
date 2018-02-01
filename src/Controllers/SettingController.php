@@ -3,6 +3,7 @@
 namespace Knowfox\Crud\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Knowfox\Crud\Requests\SettingRequest;
 use Knowfox\Crud\Models\Setting;
 use Knowfox\Crud\Services\Crud;
@@ -13,9 +14,14 @@ class SettingController extends Controller
 
     public function __construct(Crud $crud)
     {
-        parent::__construct();
+        //@todo parent::__construct();
         $this->crud = $crud;
         $this->crud->setup('crud.setting');
+    }
+
+    public function index(Request $request)
+    {
+        return $this->crud->index($request);
     }
 
     public function create()
