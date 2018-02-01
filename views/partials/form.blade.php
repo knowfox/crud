@@ -39,7 +39,7 @@
             @if ($mode == 'create' || !empty($button))
                 <button type="submit" class="pull-right btn btn-default">{!! !empty($button) ? $button : '<i class="glyphicon glyphicon-plus"></i> Anlegen' !!}</button>
             @else
-                <button type="submit" class="pull-right btn btn-default"><i class="glyphicon glyphicon-save"></i> Speichern</button>
+                <button type="submit" class="pull-right btn btn-default"><i class="glyphicon glyphicon-save"></i> @lang('Save')</button>
             @endif
 
             @yield('buttons')

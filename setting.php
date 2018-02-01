@@ -11,22 +11,22 @@ return [
 
     'columns' => [
         'translatedName' => 'Name',
-        'prettyValue' => 'Wert',
-        'translatedField' => 'Feldtyp',
+        'prettyValue' => 'Value',
+        'translatedField' => 'Field Type',
     ],
 
     'fields' => [
         'name' => [
             'label' => 'Name',
-            'type' => 'show',
+            'type' => 'text',
         ],
         'field' => [
-            'label' => 'Feldtyp',
+            'label' => 'Field Type',
             'type' => 'select',
             'options' => 'setting_types',
         ],
         'value' => [
-            'label' => 'Wert',
+            'label' => 'Value',
             'type' => 'setting_value',
         ],
     ],
