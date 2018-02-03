@@ -51,27 +51,19 @@
                                 <tbody>
                                 @foreach ($entities as $entity)
                                     <tr>
+                                        <?php $i = 0; ?>
                                         @foreach ($cols as $col => $info)
                                             <td>
-                                                <?php ob_start(); ?>
-                                                @if ($info['type'] == 'money')
-                                                    {{ number_format($entity->{$col}, 2, ',', '.') }} €
+                                                @if (strpos($col, '.') !== false)
+                                                    <?php
+                                                    $scoped_col = preg_split('/\./', $col);
+                                                    $value = $entity->{$scoped_col[0]}->{$scoped_col[1]};
+                                                    ?>
+                                                    @include('crud::partials.row', ['value' => $value])
                                                 @else
-                                                    @if ($info['type'] == 'date')
-                                                        {{ strftime('%d.%m.%Y', strtotime($entity->{$col})) }}
-                                                    @else
-                                                        {{ $entity->{$col} }}
-                                                    @endif
+                                                    @include('crud::partials.row', ['value' => $entity->{$col}])
                                                 @endif
-                                                <?php
-                                                    $value = ob_get_clean();
-                                                    if ($show) {
-                                                        ?><a href="{{ route($entity_name . '.show', $entity) }}">{{ $value }}</a><?php
-                                                    }
-                                                    else {
-                                                        echo $value;
-                                                    }
-                                                ?>
+                                                <?php $i++; ?>
                                             </td>
                                         @endforeach
                                         <td class="text-right" style="white-space: nowrap">

@@ -101,6 +101,15 @@ class Crud
             call_user_func($this->setup->filter, $entities);
         }
 
+        $columns = $this->setup->columns;
+
+        if (isset($this->setup->extension)) {
+            $entities->with('extension');
+            foreach ($this->setup->extension['columns'] as $col => $title) {
+                $this->setup->columns['extension.' . $col] = $title;
+            }
+        }
+
         if (!empty($this->setup->with)) {
             $entities->with($this->setup->with);
         }
