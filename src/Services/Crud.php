@@ -33,6 +33,11 @@ class Crud
         $this->setup->{$name} = $value;
     }
 
+    public function options($options)
+    {
+        $this->setup = (object)array_merge((array)$this->setup, $options);
+    }
+
     private function stripPrefix($text)
     {
         return preg_replace('/^\S* /', '', $text);
@@ -68,11 +73,13 @@ class Crud
         return $view_name;
     }
 
-    private function listRoute()
+    private function listUrl()
     {
         return isset($this->setup->list_route)
-            ? $this->setup->list_route
-            : $this->setup->entity_name . '.index';
+            ? (count($this->setup->list_route) > 1
+                ? route($this->setup->list_route[0], $this->setup->list_route[1])
+                : route($this->setup->list_route[0]))
+            : route($this->setup->entity_name . '.index');
     }
 
     /**
@@ -146,7 +153,7 @@ class Crud
             $breadcrumbs['#'] = __('Manage');
         }
 
-        $breadcrumbs[route($this->listRoute())] = $this->setup->entity_title[1];
+        $breadcrumbs[$this->listUrl()] = $this->setup->entity_title[1];
 
         $page_title = __('New :entity_title', ['entity_title' => $this->setup->entity_title[0]]);
         $breadcrumbs['#create'] = $page_title;
@@ -224,7 +231,7 @@ class Crud
         if ($error) {
             return [
                 $model,
-                response()->redirectToRoute($this->listRoute())
+                response()->redirectTo($this->listUrl())
                     ->with('error', $error)
             ];
         }
@@ -235,7 +242,7 @@ class Crud
 
         return [
             $model,
-            response()->redirectToRoute($this->listRoute())
+            response()->redirectTo($this->listUrl())
                 ->with('status', __('New :entity_title created', [
                     'entity_title' => $this->setup->entity_title[0]
                 ]))
@@ -266,7 +273,7 @@ class Crud
                 $breadcrumbs['#'] = __('Manage');
             }
 
-            $breadcrumbs[route($this->listRoute())] = __($this->setup->entity_title[1]);
+            $breadcrumbs[$this->listUrl()] = __($this->setup->entity_title[1]);
             $breadcrumbs['#edit'] = $page_title;
         }
 
@@ -298,7 +305,7 @@ class Crud
 
         $error = $this->saveFile($request, $entity);
         if ($error) {
-            return response()->redirectToRoute($this->listRoute())
+            return response()->redirectTo($this->listUrl())
                 ->with('error', $error);
         }
 
@@ -306,7 +313,7 @@ class Crud
             return $entity;
         }
 
-        return response()->redirectToRoute($this->listRoute())
+        return response()->redirectTo($this->listUrl())
             ->with('status', __('Changes to :entity_title saved', [
                     'entity_title' => $this->stripPrefix($this->setup->entity_title[0])
                 ]));
@@ -321,7 +328,7 @@ class Crud
     public function destroy(Model $entity)
     {
         $entity->delete();
-        return response()->redirectToRoute($this->listRoute())
+        return response()->redirectTo($this->listUrl())
             ->with('status', __($this->stripPrefix($this->setup->entity_title[0]) . ' deleted'));
     }
 }
