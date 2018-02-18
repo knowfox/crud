@@ -19,7 +19,7 @@
     @endif
 
     <div class="row">
-        <div class="col-sm-offset-1 col-sm-10">
+        <div class="offset-sm-1 col-sm-10">
             <div class="row">
                 @yield('context')
 
@@ -32,12 +32,14 @@
                         @include('crud::fields.' . (isset($field['type']) ? $field['type'] : 'text'))
                     @endif
                 @endforeach
+
+                <div id="extension"></div>
             </div>
 
             <hr>
 
             @if ($mode == 'create' || !empty($button))
-                <button type="submit" class="pull-right btn btn-default">{!! !empty($button) ? $button : '<i class="glyphicon glyphicon-plus"></i> Anlegen' !!}</button>
+                <button type="submit" class="pull-right btn btn-default">{!! !empty($button) ? $button : ('<i class="glyphicon glyphicon-plus"></i>' . __('Create')) !!}</button>
             @else
                 <button type="submit" class="pull-right btn btn-default"><i class="glyphicon glyphicon-save"></i> @lang('Save')</button>
             @endif

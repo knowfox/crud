@@ -4,24 +4,23 @@
     <div class="container">
 
         <div class="row">
-            <div class="col-lg-12">
-
-                @if ($has_create)
-                    <div class="pull-right mt-4">
-                        <a href="{{ $create['route'] }}" class="btn btn-default">
-                            <i class="glyphicon glyphicon-plus"></i> {{ __($create['title']) }}
-                        </a>
-                    </div>
-                @endif
-
+            <div class="col">
                 <h1 class="page-header">{!! $page_title !!}</h1>
-                @include('crud::partials.breadcrumbs')
-                @include('crud::partials.messages')
             </div>
+            @if ($has_create)
+                <div class="col-auto">
+                    <a href="{{ $create['route'] }}" class="btn btn-default">
+                        <i class="fas fa-plus-square"></i> {{ __($create['title']) }}
+                    </a>
+                </div>
+            @endif
         </div>
 
-        <div class="row">
-            <div class="col-sm-offset-1 col-sm-10">
+        @include('crud::partials.breadcrumbs')
+        @include('crud::partials.messages')
+
+        <div class="row justify-content-center">
+            <div class="col-10">
                 <div class="row">
                     @yield('context')
 

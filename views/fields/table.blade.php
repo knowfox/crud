@@ -34,7 +34,7 @@
         }
     </style>
     <ul class="list-group" id="items"></ul>
-    <button class="btn btn-default" id="add-item"><i class="glyphicon glyphicon-plus"></i> Neuer Eintrag</button>
+    <button class="btn btn-default" id="add-item"><i class="fa fa-plus-square"></i> Neuer Eintrag</button>
     <input type="hidden" id="field-value" name="{{ $name }}" value="{{$entity->{$name} or ''}}">
 </div>
 
@@ -51,7 +51,7 @@
         var el = document.createElement('li');
         el.className = 'list-group-item';
         el.dataset.id = value;
-        el.innerHTML = value + '<i class="js-remove glyphicon glyphicon-remove"></i>';
+        el.innerHTML = value + '<i class="js-remove fa fa-minus-square"></i>';
         return el;
     }
 

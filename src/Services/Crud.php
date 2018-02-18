@@ -25,7 +25,13 @@ class Crud
 
     public function setup($options)
     {
-        $this->setup = (object)config($options);
+        if (null !== config($options . '.extends')) {
+            $parent = config($options . '.extends');
+            $prefix = substr($options, 0, strrpos($options, '.') + 1);
+
+            $this->setup = (object)config($prefix . $parent);
+        }
+        $this->options(config($options));
     }
 
     public function option($name, $value)
@@ -35,7 +41,7 @@ class Crud
 
     public function options($options)
     {
-        $this->setup = (object)array_merge((array)$this->setup, $options);
+        $this->setup = (object)array_merge_recursive((array)$this->setup, $options);
     }
 
     private function stripPrefix($text)
@@ -103,13 +109,6 @@ class Crud
 
         $columns = $this->setup->columns;
 
-        if (isset($this->setup->extension)) {
-            $entities->with('extension');
-            foreach ($this->setup->extension['columns'] as $col => $title) {
-                $this->setup->columns['extension.' . $col] = $title;
-            }
-        }
-
         if (!empty($this->setup->with)) {
             $entities->with($this->setup->with);
         }
@@ -139,7 +138,7 @@ class Crud
                 'title' => __('New :entity_title', ['entity_title' => $this->setup->entity_title[0]]),
             ],
             'deletes' => !empty($this->setup->deletes) && $this->setup->deletes,
-            'no_result' => 'Keine ' . $this->setup->entity_title[1],
+            'no_result' => 'No ' . $this->setup->entity_title[1],
             'columns' => $this->setup->columns,
             'entities' => $entities->paginate(),
             'context' => $this->context,

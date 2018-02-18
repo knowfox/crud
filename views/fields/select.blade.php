@@ -1,4 +1,4 @@
-<div class="col-sm-{{ $field['cols'] or 6 }}{{ !empty($field['offs']) ? " col-sm-offset-{$field['offs']}" : '' }}">
+<div class="col-sm-{{ $field['cols'] or 6 }}{{ !empty($field['offs']) ? " offset-sm-{$field['offs']}" : '' }}">
     <div class="form-group{{ $errors->has($name) ? ' has-error' : '' }}">
         <label for="{{ $name }}">{{ $field['label'] }}</label>
         <select name="{{ $name }}" class="form-control">
