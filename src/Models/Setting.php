@@ -23,7 +23,8 @@ class Setting extends Model
     {
         switch ($this->field) {
             case 'table':
-                return join(', ', json_decode($this->value));
+                $value = json_decode($this->value);
+                return is_array($value) ? join(', ', $value) : null;
             default:
                 return $this->value;
         }

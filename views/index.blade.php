@@ -66,7 +66,7 @@
                                             </td>
                                         @endforeach
                                         <td class="text-right" style="white-space: nowrap">
-                                            @if (!isset($entity->readonly) || !$entity->readonly)
+                                            @if (!Auth::guest() && !isset($entity->readonly) || !$entity->readonly)
                                                 @include('crud::partials.actions', ['entity' => $entity])
                                             @endif
                                         </td>

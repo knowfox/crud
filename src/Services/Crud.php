@@ -129,16 +129,19 @@ class Crud
 
         $has_create = !isset($this->setup->has_create) || $this->setup->has_create;
 
+        $entity_title = __(preg_replace('/^\s*/', '', $this->setup->entity_title[0]));
+
         return view($this->viewName('index'), [
             'page_title' => $page_title,
             'entity_name' => $this->setup->entity_name,
             'has_create' => $has_create,
+            'entity_title' => $entity_title,
             'create' => [
                 'route' => route($this->setup->entity_name . '.create'),
                 'title' => __('New :entity_title', ['entity_title' => $this->setup->entity_title[0]]),
             ],
             'deletes' => !empty($this->setup->deletes) && $this->setup->deletes,
-            'no_result' => 'No ' . $this->setup->entity_title[1],
+            'no_result' => __('No ' . $this->setup->entity_title[1]),
             'columns' => $this->setup->columns,
             'entities' => $entities->paginate(),
             'context' => $this->context,
@@ -206,11 +209,11 @@ class Crud
         if ($request->hasFile('file')) {
             $file = $request->file;
             if (!$file->isValid()) {
-                return 'Could not upload file';
+                return __('Could not upload file');
             }
             else
             if (strpos($file->getMimeType(), 'image/') !== 0) {
-                return 'Uploaded file is not an image';
+                return __('Uploaded file is not an image');
             }
 
             $entity->clearMediaCollection('images');

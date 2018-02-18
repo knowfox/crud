@@ -32,8 +32,6 @@
                         @include('crud::fields.' . (isset($field['type']) ? $field['type'] : 'text'))
                     @endif
                 @endforeach
-
-                <div id="extension"></div>
             </div>
 
             <hr>
