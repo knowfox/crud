@@ -56,7 +56,12 @@
                                                 @if (strpos($col, '.') !== false)
                                                     <?php
                                                     $scoped_col = preg_split('/\./', $col);
-                                                    $value = $entity->{$scoped_col[0]}->{$scoped_col[1]};
+                                                    if ($entity->{$scoped_col[0]}) {
+                                                        $value = $entity->{$scoped_col[0]}->{$scoped_col[1]};
+                                                    }
+                                                    else {
+                                                        $value = '--';
+                                                    }
                                                     ?>
                                                     @include('crud::partials.row', ['value' => $value])
                                                 @else

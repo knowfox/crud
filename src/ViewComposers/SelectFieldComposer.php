@@ -44,7 +44,7 @@ class SelectFieldComposer
             }
             else {
                 foreach ($data['field']['model']::pluck($data['field']['field'], 'id') as $id => $value) {
-                    $options[$id] = $value;
+                    $options[$id] = $value . " ({$id})";
                 }
             }
         }

@@ -1,6 +1,6 @@
 <div class="col-sm-{{ $field['cols'] or 6 }}{{ !empty($field['offs']) ? " offset-sm-{$field['offs']}" : '' }}">
     <div class="form-group{{ $errors->has($name) ? ' has-error' : '' }}">
-        <label for="{{ $name }}">{{ $field['label'] }}</label>
+        <label for="{{ $name }}">{{ __($field['label']) }}</label>
 
         <?php
         $value = $errors->any() ? old($name) : (isset($entity->{$name}) ? $entity->{$name} : '');
