@@ -5,7 +5,11 @@
     @if ($info['type'] == 'date')
         {{ strftime('%d.%m.%Y', strtotime($value)) }}
     @else
-        {{ $value }}
+        @if ($info['type'] == 'image')
+            <img src="{{ $entity->getFirstMediaUrl('images', isset($info['style']) ? $info['style'] : 'thumb') }}">
+        @else
+            {{ $value }}
+        @endif
     @endif
 @endif
 <?php
@@ -14,6 +18,6 @@ if ($i == 0 && $show) {
 ?><a href="{{ route($entity_name . '.show', $entity) }}">{{ $rendered_value }}</a><?php
 }
 else {
-    echo $value;
+    echo $rendered_value;
 }
 ?>

@@ -41,6 +41,9 @@
                                             'title' => $title,
                                             'type' => is_string($column) ? 'text' : $column['type'],
                                         ];
+                                        if (is_array($column)) {
+                                            $cols[$key] += $column;
+                                        }
                                         ?>
                                         <th>{{ $title }}</th>
                                     @endforeach
