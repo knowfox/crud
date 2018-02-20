@@ -5,7 +5,7 @@
     "require": {
         "illuminate/support": "^5.4"
     },
-    "license": "LGPL v3",
+    "license": "LGPL-3.0-or-later",
     "authors": [
         {
             "name": "Olav Schettler",
