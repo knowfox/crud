@@ -83,7 +83,7 @@
                                 </tbody>
                             </table>
 
-                            <div class="text-center">{{ $entities->links() }}</div>
+                            <div class="d-flex justify-content-center">{{ $entities->links() }}</div>
                         @endif
                     </div>
                 </div>
