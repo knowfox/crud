@@ -14,6 +14,10 @@ class ServiceProvider extends IlluminateServiceProvider
             'crud::fields.select', SelectFieldComposer::class
         );
 
+        View::composer(
+            'crud::fields.tags', TagsFieldComposer::class
+        );
+
         $this->loadMigrationsFrom(__DIR__ . '/../migrations');
         $this->loadViewsFrom(__DIR__ . '/../views', 'crud');
         $this->loadRoutesFrom(__DIR__ . '/../routes.php');

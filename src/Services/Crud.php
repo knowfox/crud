@@ -107,6 +107,20 @@ class Crud
             call_user_func($this->setup->filter, $entities);
         }
 
+        if (isset($this->setup->search)) {
+            $q = null;
+            if ($request->has('q')) {
+                $q = $request->q;
+                session(['search_term' => $q]);
+            }
+            else {
+                $q = session('search_term', null);
+            }
+            if ($q) {
+                $entities->where($this->setup->search, 'like', '%' . $q . '%');
+            }
+        }
+
         $columns = $this->setup->columns;
 
         if (!empty($this->setup->with)) {
@@ -147,6 +161,7 @@ class Crud
             'context' => $this->context,
             'breadcrumbs' => $breadcrumbs,
             'show' => !empty($this->setup->show) && $this->setup->show,
+            'search_placeholder' => __('Search in ' . $this->setup->entity_title[1])
         ]);
     }
 

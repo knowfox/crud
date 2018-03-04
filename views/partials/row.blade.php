@@ -8,7 +8,13 @@
         @if ($info['type'] == 'image')
             <img src="{{ $entity->getFirstMediaUrl('images', isset($info['style']) ? $info['style'] : 'thumb') }}">
         @else
-            {{ $value }}
+            @if ($info['type'] == 'tags')
+                @foreach ($entity->tagsWithType($col) as $tag)
+                    <span class="badge badge-light">{{ $tag->name }}</span>
+                @endforeach
+            @else
+                {{ $value }}
+            @endif
         @endif
     @endif
 @endif

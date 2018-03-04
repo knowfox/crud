@@ -5,15 +5,13 @@ namespace Knowfox\Crud\ViewComposers;
 use Knowfox\Crud\Models\Setting;
 use Illuminate\View\View;
 
-class SelectFieldComposer
+class TagsFieldComposer
 {
     public function compose(View $view)
     {
         $data = $view->getData();
 
-        $options = [
-            '' => __('-- not set --'),
-        ];
+        $options = [];
 
         /**
          * $options may be set explicitely ...

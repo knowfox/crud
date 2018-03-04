@@ -91,3 +91,32 @@
         </div>
     </div>
 @endsection
+
+@section('search_form')
+    <div class="justify-content-center">
+        <form class="form-inline my-2 my-lg-0" action="{{ route($entity_name . '.index') }}">
+            <div class="input-group">
+                <input name="q" type="text" class="search-input form-control"
+                       placeholder="{{ $search_placeholder or '' }}"
+                       value="{{ session('search_term') }}">
+                <span class="search-clear"><i class="fa fa-times"></i></span>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+        </form>
+    </div>
+@endsection
+
+@push('scripts')
+    <script>
+        $('.search-input').keyup(function() {
+            $('.search-clear').toggle(Boolean($(this).val()));
+        });
+        $('.search-clear').toggle(Boolean($(".search-input").val()));
+        $('.search-clear').click(function() {
+            $('.search-input').val('').focus();
+            $(this).parents('form').submit();
+        });
+    </script>
+@endpush
