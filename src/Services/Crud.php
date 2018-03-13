@@ -12,6 +12,7 @@ namespace Knowfox\Crud\Services;
 
 use App\Models\Idea;
 use App\Models\Inventor;
+use Illuminate\Database\Query\Builder;
 use Knowfox\Crud\Models\Setting;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Model;
@@ -100,12 +101,22 @@ class Crud
         assert(isset($this->setup->entity_name), 'entity_name is set on ' . $this->setup->model);
         assert(isset($this->setup->entity_title), 'entity_title is set on ' . $this->setup->model);
 
-        $order_by = preg_split('/\|/', $this->setup->order_by);
-        if (count($order_by) > 1) {
-            $entities = $this->setup->model::orderBy($order_by[0], $order_by[1]);
+        $entities = (new $this->setup->model)->newQuery();
+
+        if (is_array($this->setup->order_by)) {
+            $order_by = $this->setup->order_by;
         }
         else {
-            $entities = $this->setup->model::orderBy($order_by[0], 'asc');
+            $order_by = [$this->setup->order_by];
+        }
+        foreach ($order_by as $order_by_column) {
+            $name_and_direction = preg_split('/\|/', $order_by_column);
+            if (count($name_and_direction) > 1) {
+                $entities->orderBy($name_and_direction[0], $name_and_direction[1]);
+            }
+            else {
+                $entities->orderBy($name_and_direction[0], 'asc');
+            }
         }
 
         if (isset($this->setup->filter) && is_callable($this->setup->filter)) {
