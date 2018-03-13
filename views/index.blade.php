@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends($layout)
 
 @section('content')
     <div class="container">
@@ -10,7 +10,7 @@
             @if ($has_create)
                 <div class="col-auto">
                     <a href="{{ $create['route'] }}" class="btn btn-default">
-                        <i class="fas fa-plus-square"></i> {{ __($create['title']) }}
+                        <i class="fas fa-plus-square"></i> @lang($create['title'])
                     </a>
                 </div>
             @endif
@@ -45,7 +45,7 @@
                                             $cols[$key] += $column;
                                         }
                                         ?>
-                                        <th>{{ $title }}</th>
+                                        <th>@lang($title)</th>
                                     @endforeach
                                         <th style="width:10em">&nbsp;</th>
                                     </tr>

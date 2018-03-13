@@ -51,7 +51,7 @@ class Crud
 
     public function __construct()
     {
-        $app_version = config('app.version');
+        $app_version = config('app.version', '0.1');
         $schema_version = Setting::where('name', 'version')->pluck('value')->first();
 
         if (!$schema_version || version_compare($app_version, $schema_version) > 0) {
@@ -95,6 +95,11 @@ class Crud
      */
     public function index(\Illuminate\Http\Request $request)
     {
+        assert(isset($this->setup->model), 'model is set');
+        assert(isset($this->setup->order_by), 'order_by is set on '. $this->setup->model);
+        assert(isset($this->setup->entity_name), 'entity_name is set on ' . $this->setup->model);
+        assert(isset($this->setup->entity_title), 'entity_title is set on ' . $this->setup->model);
+
         $order_by = preg_split('/\|/', $this->setup->order_by);
         if (count($order_by) > 1) {
             $entities = $this->setup->model::orderBy($order_by[0], $order_by[1]);
@@ -146,13 +151,14 @@ class Crud
         $entity_title = __(preg_replace('/^\s*/', '', $this->setup->entity_title[0]));
 
         return view($this->viewName('index'), [
+            'layout' => isset($this->setup->layout) ? $this->setup->layout : 'layouts.app',
             'page_title' => $page_title,
             'entity_name' => $this->setup->entity_name,
             'has_create' => $has_create,
             'entity_title' => $entity_title,
             'create' => [
                 'route' => route($this->setup->entity_name . '.create'),
-                'title' => __('New :entity_title', ['entity_title' => $this->setup->entity_title[0]]),
+                'title' => __('New:entity_title', ['entity_title' => $this->setup->entity_title[0]]),
             ],
             'deletes' => !empty($this->setup->deletes) && $this->setup->deletes,
             'no_result' => __('No ' . $this->setup->entity_title[1]),
@@ -179,12 +185,13 @@ class Crud
             $breadcrumbs['#'] = __('Manage');
         }
 
-        $breadcrumbs[$this->listUrl()] = $this->setup->entity_title[1];
+        $breadcrumbs[$this->listUrl()] = __($this->setup->entity_title[1]);
 
-        $page_title = __('New :entity_title', ['entity_title' => $this->setup->entity_title[0]]);
+        $page_title = __('New:entity_title', ['entity_title' => $this->setup->entity_title[0]]);
         $breadcrumbs['#create'] = $page_title;
 
         return view($this->viewName('create'), [
+            'layout' => isset($this->setup->layout) ? $this->setup->layout : 'layouts.app',
             'page_title' => $page_title,
             'entity_name' => $this->setup->entity_name,
             'model' => $this->setup->model,
@@ -304,6 +311,7 @@ class Crud
         }
 
         return view($this->viewName('edit'), [
+            'layout' => isset($this->setup->layout) ? $this->setup->layout : 'layouts.app',
             'page_title' => $page_title,
             'entity_name' => $this->setup->entity_name,
             'fields' => $this->setup->fields,
