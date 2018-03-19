@@ -21,7 +21,7 @@
     <div class="row">
         <div class="offset-sm-1 col-sm-10">
             <div class="row">
-                @yield('context')
+                @yield('above-fields')
 
                 @foreach ($fields as $name => $field)
                     @if(is_string($field))
@@ -32,6 +32,8 @@
                         @include('crud::fields.' . (isset($field['type']) ? $field['type'] : 'text'))
                     @endif
                 @endforeach
+
+                @yield('below-fields')
             </div>
 
             <hr>
