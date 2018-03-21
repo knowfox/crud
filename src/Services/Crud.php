@@ -94,14 +94,16 @@ class Crud
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(\Illuminate\Http\Request $request)
+    public function index(\Illuminate\Http\Request $request, $entities = null)
     {
         assert(isset($this->setup->model), 'model is set');
         assert(isset($this->setup->order_by), 'order_by is set on '. $this->setup->model);
         assert(isset($this->setup->entity_name), 'entity_name is set on ' . $this->setup->model);
         assert(isset($this->setup->entity_title), 'entity_title is set on ' . $this->setup->model);
 
-        $entities = (new $this->setup->model)->newQuery();
+        if (!$entities) {
+            $entities = (new $this->setup->model)->newQuery();
+        }
 
         if (is_array($this->setup->order_by)) {
             $order_by = $this->setup->order_by;
