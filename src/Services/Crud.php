@@ -251,8 +251,18 @@ class Crud
                 return __('Uploaded file is not an image');
             }
 
-            $entity->clearMediaCollection('images');
-            $entity->addMedia($file->path())->toMediaCollection('images');
+            if (!isset($this->setup->multiple_files) || !$this->setup->multiple_files) {
+                $entity->clearMediaCollection('images');
+            }
+
+            $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            $entity->addMedia($file->path())
+                ->usingName($filename)
+                ->usingFileName($filename)
+                ->sanitizingFileName(function($filename) {
+                    return str_slug($filename);
+                })
+                ->toMediaCollection('images');
         }
         return null;
     }

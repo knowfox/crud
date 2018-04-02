@@ -1,9 +1,3 @@
-@if ($has_file)
-    <div class="row">
-        <div class="col-md-12 dropzone-previews"></div>
-    </div>
-@endif
-
 @php
     $form_attributes = $has_file ? ' id="dropzone" class="dropzone"' : '';
 @endphp
@@ -18,8 +12,14 @@
         {{ csrf_field() }}
     @endif
 
+@if ($has_file)
     <div class="row">
-        <div class="offset-sm-1 col-sm-10">
+        <div class="col dropzone-previews"></div>
+    </div>
+@endif
+
+    <div class="row">
+        <div class="col">
             <div class="row">
                 @yield('above-fields')
 
