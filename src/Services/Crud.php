@@ -174,6 +174,7 @@ class Crud
                 'title' => __('New:entity_title', ['entity_title' => $this->setup->entity_title[0]]),
             ],
             'deletes' => !empty($this->setup->deletes) && $this->setup->deletes,
+            'downloads' => !empty($this->setup->downloads) && $this->setup->downloads,
             'no_result' => __('No ' . $this->setup->entity_title[1]),
             'columns' => $this->setup->columns,
             'entities' => $entities->paginate(),

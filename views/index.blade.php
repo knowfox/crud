@@ -73,7 +73,7 @@
                                                 <?php $i++; ?>
                                             </td>
                                         @endforeach
-                                        <td class="text-right" style="white-space: nowrap">
+                                        <td class="text-right">
                                             @if (!Auth::guest() && !isset($entity->readonly) || !$entity->readonly)
                                                 @include('crud::partials.actions', ['entity' => $entity])
                                             @endif
