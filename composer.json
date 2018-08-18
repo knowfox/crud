@@ -23,9 +23,6 @@
         }
     },
     "extra": {
-        "installer-paths": {
-            "packages/{$name}": ["vendor"]
-        },
         "laravel": {
             "providers": [
                 "Knowfox\\Crud\\ServiceProvider"
