@@ -13,12 +13,19 @@
         }
     ],
     "minimum-stability": "dev",
+    "type": "laravel-package",
+    "require": {
+        "composer/installers": "1.*"
+    },
     "autoload": {
         "psr-4": {
             "Knowfox\\Crud\\": "src/"
         }
     },
     "extra": {
+        "installer-paths": {
+            "packages/{$name}": ["vendor"]
+        },
         "laravel": {
             "providers": [
                 "Knowfox\\Crud\\ServiceProvider"
