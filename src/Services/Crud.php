@@ -72,6 +72,9 @@ class Crud
         if (!empty($this->setup->package_name)) {
             $view_name .= $this->setup->package_name . '::';
         }
+
+        $view_name .= config('crud.theme') . '.';
+
         $view_name .= $this->setup->entity_name;
 
         if ($suffix) {
