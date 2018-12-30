@@ -1,0 +1,1 @@
+<input {!! $attr ?? '' !!}type="{{ $type }}" class="uk-input" name="{{ $name }}" id="{{ $name }}-field" value="{{ $value }}">

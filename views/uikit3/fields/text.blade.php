@@ -1,0 +1,1 @@
+@include('crud::' . $theme . '.fields.input', ['type' => 'text'])

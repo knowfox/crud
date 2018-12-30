@@ -2,41 +2,8 @@
 
 namespace Knowfox\Crud\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Setting extends Model
+interface Setting
 {
-    protected $fillable = ['name', 'value', 'field'];
-    protected $casts = ['readonly' => 'boolean'];
-
-    public function getDecodedValueAttribute($value)
-    {
-        switch ($this->field) {
-            case 'table':
-                return json_decode($this->value);
-            default:
-                return $this->value;
-        }
-    }
-
-    public function getPrettyValueAttribute($value)
-    {
-        switch ($this->field) {
-            case 'table':
-                $value = json_decode($this->value);
-                return is_array($value) ? join(', ', $value) : null;
-            default:
-                return $this->value;
-        }
-    }
-
-    public function getTranslatedNameAttribute($value)
-    {
-        return __('settings.' . $this->name);
-    }
-
-    public function getTranslatedFieldAttribute($value)
-    {
-        return __('settings.' . $this->field);
-    }
+    public function upgradeSchema();
+    public function get($name);
 }

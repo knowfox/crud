@@ -17,11 +17,11 @@ use Knowfox\Crud\Models\Setting;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Http\FormRequest as Request;
-use Illuminate\Support\Facades\Artisan;
 
 class Crud
 {
     protected $setup;
+    protected $setting;
     protected $context = null;
 
     public function setup($options)
@@ -50,20 +50,10 @@ class Crud
         return preg_replace('/^\S* /', '', $text);
     }
 
-    public function __construct()
+    public function __construct(Setting $setting)
     {
-        $app_version = config('app.version', '0.1');
-        $schema_version = Setting::where('name', 'version')->pluck('value')->first();
-
-        if (!$schema_version || version_compare($app_version, $schema_version) > 0) {
-            Artisan::call('migrate', ['--force' => true]);
-            Setting::updateOrCreate([
-                'name' => 'version'
-            ], [
-                'value' => $app_version,
-                'field' => 'simple',
-            ]);
-        }
+        $this->setting = $setting;
+        $this->setting->upgradeSchema();
     }
 
     private function viewName($suffix = '')
@@ -208,6 +198,7 @@ class Crud
         $breadcrumbs['#create'] = $page_title;
 
         return view($this->viewName('create'), [
+            'theme' => config('crud.theme'),
             'layout' => isset($this->setup->layout) ? $this->setup->layout : 'layouts.app',
             'page_title' => $page_title,
             'entity_name' => $this->setup->entity_name,
@@ -338,6 +329,7 @@ class Crud
         }
 
         return view($this->viewName('edit'), [
+            'theme' => config('crud.theme'),
             'layout' => isset($this->setup->layout) ? $this->setup->layout : 'layouts.app',
             'page_title' => $page_title,
             'entity_name' => $this->setup->entity_name,

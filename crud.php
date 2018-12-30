@@ -1,4 +1,4 @@
 <?php
 return [
-    'theme' => 'uikit3', // or 'bootstrap3'
+    'theme' => 'uikit3', // or 'bootstrap4'
 ];
