@@ -9,7 +9,7 @@
             <h1 class="uk-heading-primary uk-heading-bullet">{!! $page_title !!}</h1>
         </div>
 
-        @include('partials.messages')
+        @include('crud::' . $theme . '.partials.messages')
 
         @include('crud::' . $theme . '.partials.form')
     </div>

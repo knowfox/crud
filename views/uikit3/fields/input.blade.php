@@ -1,4 +1,4 @@
-<div class="uk-width-{{ $field['cols'] ?? 6 }}-12{{ !empty($field['offs']) ? " offset-sm-{$field['offs']}" : '' }}">
+<div class="uk-width-{{ $field['width'] ?? '1-1' }}@m">
     <div class="form-group{{ $errors->has($name) ? ' has-error' : '' }}">
         <label class="uk-form-label" for="{{ $name }}">{{ __($field['label']) }}</label>
 

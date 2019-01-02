@@ -18,34 +18,32 @@
     </div>
 @endif
 
-    <div uk-grid>
-        <div>
-            <div uk-grid>
-                @yield('above-fields')
+    <div>
+        <div uk-grid>
+            @yield('above-fields')
 
-                @foreach ($fields as $name => $field)
-                    @if(is_string($field))
-                        @include('crud::' . $theme . '.fields.text', [
-                            'field' => [ 'label' => $field ]
-                        ])
-                    @else
-                        @include('crud::' . $theme . '.fields.' . (isset($field['type']) ? $field['type'] : 'text'))
-                    @endif
-                @endforeach
+            @foreach ($fields as $name => $field)
+                @if(is_string($field))
+                    @include('crud::' . $theme . '.fields.text', [
+                        'field' => [ 'label' => $field ]
+                    ])
+                @else
+                    @include('crud::' . $theme . '.fields.' . (isset($field['type']) ? $field['type'] : 'text'))
+                @endif
+            @endforeach
 
-                @yield('below-fields')
-            </div>
-
-            <hr>
-
-            @if ($mode == 'create' || !empty($button))
-                <button type="submit" class="uk-float-right uk-button uk-button-default">{!! !empty($button) ? $button : ('<i class="glyphicon glyphicon-plus"></i>' . __('Create')) !!}</button>
-            @else
-                <button type="submit" class="uk-float-right uk-button uk-button-default"><i class="glyphicon glyphicon-save"></i> @lang('Save')</button>
-            @endif
-
-            @yield('buttons')
-
+            @yield('below-fields')
         </div>
+
+        <hr>
+
+        @if ($mode == 'create' || !empty($button))
+            <button type="submit" class="uk-float-right uk-button uk-button-default">{!! !empty($button) ? $button : ('<i class="glyphicon glyphicon-plus"></i>' . __('Create')) !!}</button>
+        @else
+            <button type="submit" class="uk-float-right uk-button uk-button-default"><i class="glyphicon glyphicon-save"></i> @lang('Save')</button>
+        @endif
+
+        @yield('buttons')
+
     </div>
 </form>
