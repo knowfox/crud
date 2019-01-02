@@ -10,12 +10,14 @@ class ServiceProvider extends IlluminateServiceProvider
 {
     public function boot()
     {
+        $theme = config('crud.theme');
+
         View::composer(
-            'crud::fields.select', SelectFieldComposer::class
+            'crud::' . $theme . '.fields.select', SelectFieldComposer::class
         );
 
         View::composer(
-            'crud::fields.tags', TagsFieldComposer::class
+            'crud::' . $theme . '.fields.tags', TagsFieldComposer::class
         );
 
         $this->loadMigrationsFrom(__DIR__ . '/../migrations');
