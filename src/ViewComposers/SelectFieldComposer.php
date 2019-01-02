@@ -18,16 +18,37 @@ class SelectFieldComposer
         /**
          * $options may be set explicitely ...
          */
+
+        // ... from a list or map ...
+        $values = null;
+        $is_map = false;
         if (!empty($data['field']['option_values'])) {
-            if (is_callable($data['field']['option_values'])) {
-                $values = $data['field']['option_values']();
-            }
-            else {
-                $values = $data['field']['option_values'];
+            $values = $data['field']['option_values'];
+        }
+        else
+        if (!empty($data['field']['option_map'])) {
+            $values = $data['field']['option_map'];
+            $is_map = true;
+        }
+        else
+        if (!empty($data['field']['option_list'])) {
+            $values = $data['field']['option_list'];
+        }
+
+        if (!empty($values)) {
+            if (is_callable($values)) {
+                $values = $values();
             }
 
-            foreach ($values as $id => $value) {
-                $options[$id] = $value;
+            if ($is_map) {
+                foreach ($values as $id => $value) {
+                    $options[$id] = $value;
+                }
+            }
+            else {
+                foreach ($values as $value) {
+                    $options[$value] = $value;
+                }
             }
         }
 
