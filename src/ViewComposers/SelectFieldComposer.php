@@ -19,7 +19,14 @@ class SelectFieldComposer
          * $options may be set explicitely ...
          */
         if (!empty($data['field']['option_values'])) {
-            foreach ($data['field']['option_values'] as $id => $value) {
+            if (is_callable($data['field']['option_values'])) {
+                $values = $data['field']['option_values']();
+            }
+            else {
+                $values = $data['field']['option_values'];
+            }
+
+            foreach ($values as $id => $value) {
                 $options[$id] = $value;
             }
         }
