@@ -59,8 +59,10 @@ class Crud
     private function viewName($suffix = '')
     {
         $view_name = '';
-        if (!empty($this->setup->package_name)) {
-            $view_name .= $this->setup->package_name . '::';
+
+        $package = config('crud.package');
+        if (!empty($package)) {
+            $view_name .= $package . '::';
         }
 
         $view_name .= config('crud.theme') . '.';
@@ -157,7 +159,9 @@ class Crud
         $entity_title = __(preg_replace('/^\s*/', '', $this->setup->entity_title[0]));
 
         return view($this->viewName('index'), [
-            'layout' => isset($this->setup->layout) ? $this->setup->layout : 'layouts.app',
+            'layout' => isset($this->setup->layout) 
+                ? $this->setup->layout 
+                : 'layouts.app',
             'page_title' => $page_title,
             'entity_name' => $this->setup->entity_name,
             'has_create' => $has_create,
@@ -311,7 +315,7 @@ class Crud
         $page_title = __(
             (!empty($options['verb']) ? $options['verb'] : 'Edit')
             . ' ' . $this->stripPrefix($this->setup->entity_title[0])
-        );
+        ) . ' #' . $entity->id;
 
         if (isset($options['breadcrumbs'])) {
             $breadcrumbs = $options['breadcrumbs'];
