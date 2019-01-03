@@ -1,7 +1,7 @@
-<div class="col-sm-{{ $field['cols'] or 12 }}">
-    <div class="form-group{{ $errors->has($name) ? ' has-error' : '' }}">
-        <label for="{{ $name }}">{{ __($field['label']) }}</label>
-        <textarea class="form-control" name="{{ $name }}">{!! $entity->{$name} or '' !!}</textarea>
+<div class="uk-width-{{ $field['width'] ?? '1-1' }}@m">
+    <div{!! $errors->has($name) ? ' class="uk-form-danger"' : '' !!}>
+        <label class="uk-form-label" for="{{ $name }}">{{ __($field['label']) }}</label>
+        <textarea class="uk-textarea" name="{{ $name }}">{!! $entity->{$name} ?? '' !!}</textarea>
     </div>
 </div>
 

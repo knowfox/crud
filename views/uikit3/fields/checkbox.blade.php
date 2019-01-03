@@ -1,8 +1,6 @@
-<div class="col-sm-{{ $field['cols'] or 6 }}{{ !empty($field['offs']) ? " offset-sm-{$field['offs']}" : '' }}">
-    <div class="mt-4 checkbox">
+<div class="uk-width-{{ $field['width'] ?? '1-1' }}@m">
         <label>
             <input type="checkbox" name="{{ $name }}" value="1"
                 {!! !empty($entity->{$name}) ? 'checked="CHECKED"' : '' !!}> @lang($field['label'])
         </label>
-    </div>
 </div>

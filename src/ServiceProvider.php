@@ -5,6 +5,7 @@ namespace Knowfox\Crud;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 use Illuminate\Support\Facades\View;
 use Knowfox\Crud\ViewComposers\SelectFieldComposer;
+use Knowfox\Crud\ViewComposers\TagsFieldComposer;
 
 class ServiceProvider extends IlluminateServiceProvider
 {
