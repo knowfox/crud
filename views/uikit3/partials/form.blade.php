@@ -1,5 +1,5 @@
 @php
-    $form_attributes = $has_file ? ' id="dropzone" class="dropzone uk-form-stacked' : ' class="uk-form-stacked"';
+    $form_attributes = $has_file ? ' id="dropzone" class="dropzone uk-form-stacked"' : ' class="uk-form-stacked"';
 @endphp
 
 @if ($mode == 'create' || !empty($action))

@@ -14,6 +14,10 @@ class CreateSettingsTable extends Migration
      */
     public function up()
     {
+        if (!method_exists(Setting::class, 'create')) {
+            return;
+        }
+
         Schema::create('settings', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
