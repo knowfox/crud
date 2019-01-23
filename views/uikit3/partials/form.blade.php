@@ -3,9 +3,9 @@
 @endphp
 
 @if ($mode == 'create' || !empty($action))
-    <form{!! $form_attributes !!} enctype="multipart/form-data" action="{{ !empty($action) ? $action : route($entity_name . '.store') }}" method="{{ !empty($method) ? $method : 'POST' }}">
+    <form{!! $form_attributes !!} enctype="multipart/form-data" action="{{ !empty($action) ? $action : route($route_prefix . $entity_name . '.store') }}" method="{{ !empty($method) ? $method : 'POST' }}">
 @else
-    <form{!! $form_attributes !!} enctype="multipart/form-data" action="{{ route($entity_name . '.update', [$entity])}}" method="POST">
+    <form{!! $form_attributes !!} enctype="multipart/form-data" action="{{ route($route_prefix . $entity_name . '.update', [$entity])}}" method="POST">
         <input type="hidden" name="_method" value="PUT">
 @endif
     @if (empty($method) || $method != 'GET')
@@ -38,9 +38,9 @@
         <hr>
 
         @if ($mode == 'create' || !empty($button))
-            <button type="submit" class="uk-float-right uk-button uk-button-default">{!! !empty($button) ? $button : ('<i class="glyphicon glyphicon-plus"></i>' . __('Create')) !!}</button>
+            <button type="submit" class="uk-float-right uk-button uk-button-primary">{!! !empty($button) ? $button : ('<i class="glyphicon glyphicon-plus"></i>' . __('Create')) !!}</button>
         @else
-            <button type="submit" class="uk-float-right uk-button uk-button-default"><i class="glyphicon glyphicon-save"></i> @lang('Save')</button>
+            <button type="submit" class="uk-float-right uk-button uk-button-primary"><i class="glyphicon glyphicon-save"></i> @lang('Save')</button>
         @endif
 
         @yield('buttons')

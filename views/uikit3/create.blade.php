@@ -1,0 +1,1 @@
+@include('crud::' . $theme . '.form', ['mode' => 'create'])

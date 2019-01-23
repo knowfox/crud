@@ -206,8 +206,11 @@ class Crud
         $page_title = __('New:entity_title', ['entity_title' => $this->setup->entity_title[0]]);
         $breadcrumbs['#create'] = $page_title;
 
+        $route_prefix = $this->setup->route_prefix ?? '';
+
         return view($this->viewName('create'), [
             'theme' => config('crud.theme'),
+            'route_prefix' => $route_prefix,
             'layout' => isset($this->setup->layout) ? $this->setup->layout : 'layouts.app',
             'page_title' => $page_title,
             'entity_name' => $this->setup->entity_name,
@@ -337,8 +340,11 @@ class Crud
             $breadcrumbs['#edit'] = $page_title;
         }
 
+        $route_prefix = $this->setup->route_prefix ?? '';
+
         return view($this->viewName('edit'), [
             'theme' => config('crud.theme'),
+            'route_prefix' => $route_prefix,
             'layout' => isset($this->setup->layout) ? $this->setup->layout : 'layouts.app',
             'page_title' => $page_title,
             'entity_name' => $this->setup->entity_name,
