@@ -13,37 +13,32 @@
     @endif
 
 @if ($has_file)
-    <div uk-grid>
-        <div class="col dropzone-previews"></div>
-    </div>
+    <div class="dropzone-previews"></div>
 @endif
 
-    <div>
-        <div uk-grid>
-            @yield('above-fields')
+    <div uk-grid>
+        @yield('above-fields')
 
-            @foreach ($fields as $name => $field)
-                @if(is_string($field))
-                    @include('crud::' . $theme . '.fields.text', [
-                        'field' => [ 'label' => $field ]
-                    ])
-                @else
-                    @include('crud::' . $theme . '.fields.' . (isset($field['type']) ? $field['type'] : 'text'))
-                @endif
-            @endforeach
+        @foreach ($fields as $name => $field)
+            @if(is_string($field))
+                @include('crud::' . $theme . '.fields.text', [
+                    'field' => [ 'label' => $field ]
+                ])
+            @else
+                @include('crud::' . $theme . '.fields.' . (isset($field['type']) ? $field['type'] : 'text'))
+            @endif
+        @endforeach
 
-            @yield('below-fields')
-        </div>
-
-        <hr>
-
-        @if ($mode == 'create' || !empty($button))
-            <button type="submit" class="uk-float-right uk-button uk-button-primary">{!! !empty($button) ? $button : ('<i class="glyphicon glyphicon-plus"></i>' . __('Create')) !!}</button>
-        @else
-            <button type="submit" class="uk-float-right uk-button uk-button-primary"><i class="glyphicon glyphicon-save"></i> @lang('Save')</button>
-        @endif
-
-        @yield('buttons')
-
+        @yield('below-fields')
     </div>
+
+    <hr>
+
+    @if ($mode == 'create' || !empty($button))
+        <button type="submit" class="uk-float-right uk-button uk-button-primary">{!! !empty($button) ? $button : ('<i class="glyphicon glyphicon-plus"></i>' . __('Create')) !!}</button>
+    @else
+        <button type="submit" class="uk-float-right uk-button uk-button-primary"><i class="glyphicon glyphicon-save"></i> @lang('Save')</button>
+    @endif
+
+    @yield('buttons')
 </form>
