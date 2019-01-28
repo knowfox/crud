@@ -341,10 +341,12 @@ class Crud
         }
 
         $route_prefix = $this->setup->route_prefix ?? '';
+        $images_path = route($route_prefix . $this->setup->entity_name . '.images', $entity);
 
         return view($this->viewName('edit'), [
             'theme' => config('crud.theme'),
             'route_prefix' => $route_prefix,
+            'images_path' => $images_path,
             'layout' => isset($this->setup->layout) ? $this->setup->layout : 'layouts.app',
             'page_title' => $page_title,
             'entity_name' => $this->setup->entity_name,
