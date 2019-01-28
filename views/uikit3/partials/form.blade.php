@@ -61,26 +61,28 @@
 </form>
 
 @push('scripts')
-    <script>
-        $.get('{{ $images_path }}', function (images) {
-            $.each(images.data, function (i, image) {
-                $('#images').append(`
-                <div>
-                    <figure class="uk-card uk-card-default uk-card-body">
-                        <a href="#" class="js-remove uk-position-center-right uk-padding-small uk-background-default" data-id="${image.id}" uk-icon="trash"></a>
-                        <img src="${image.thumb}">
-                        <figcaption class="uk-text-center">${image.name}</figcaption>
-                    </figure>
-                </div>`);
-            });
-        });
-
-        $('#images').on('click', '.js-remove', function (e) {
-            var $figure = $(this).parent();
-            axios.post('/admin/media/' + $(this).data('id') + '/delete')
-                .then(function () {
-                    $figure.fadeOut();
+    @if ($mode != 'create')
+        <script>
+            $.get('{{ $images_path }}', function (images) {
+                $.each(images.data, function (i, image) {
+                    $('#images').append(`
+                    <div>
+                        <figure class="uk-card uk-card-default uk-card-body">
+                            <a href="#" class="js-remove uk-position-center-right uk-padding-small uk-background-default" data-id="${image.id}" uk-icon="trash"></a>
+                            <img src="${image.thumb}">
+                            <figcaption class="uk-text-center">${image.name}</figcaption>
+                        </figure>
+                    </div>`);
                 });
-        });
-    </script>
+            });
+
+            $('#images').on('click', '.js-remove', function (e) {
+                var $figure = $(this).parent();
+                axios.post('/admin/media/' + $(this).data('id') + '/delete')
+                    .then(function () {
+                        $figure.fadeOut();
+                    });
+            });
+        </script>
+    @endif
 @endpush
