@@ -12,12 +12,13 @@
         {{ csrf_field() }}
     @endif
 
-@if ($has_file)
-    <div class="dropzone-previews"></div>
-@endif
 
     <div uk-grid>
         @yield('above-fields')
+
+        @if ($has_file)
+            <div class="dropzone-previews"></div>
+        @endif
 
         @foreach ($fields as $name => $field)
             @if(is_string($field))
