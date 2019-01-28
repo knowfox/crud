@@ -25,6 +25,7 @@
             <table class="uk-table uk-table-striped">
                 <thead>
                     <tr>
+                        <th>ID</th>
                     @foreach ($columns as $key => $column)
                         <?php
                         $title = is_string($column) ? $column : $column['title'];
@@ -44,6 +45,7 @@
                 <tbody>
                 @foreach ($entities as $entity)
                     <tr>
+                        <td>{{ $entity->id }}</td>
                         <?php $i = 0; ?>
                         @foreach ($cols as $col => $info)
                             <td>
