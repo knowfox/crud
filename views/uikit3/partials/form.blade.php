@@ -13,7 +13,7 @@
 
 @yield('above-fields')
 
-@if ($has_file)
+@if ($mode != 'create' && $has_file)
     <form id="dropzone" class="dropzone uk-margin" enctype="multipart/form-data" action="{{ $action }}" method="{{ $method }}">
         @if ($method_override)
             <input type="hidden" name="_method" value="PUT">
@@ -61,7 +61,7 @@
 </form>
 
 @push('scripts')
-    @if ($mode != 'create')
+    @if ($mode != 'create' && $has_file)
         <script>
             $.get('{{ $images_path }}', function (images) {
                 $.each(images.data, function (i, image) {
