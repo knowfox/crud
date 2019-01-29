@@ -5,7 +5,7 @@
         $method = $method ?? 'POST';
     }
     else {
-        $action = route($route_prefix . $entity_name . '.update', [$entity]);
+        $action = route($route_prefix . $entity_name . '.update', $entity);
         $method = 'POST';
         $method_override = true;
     }
