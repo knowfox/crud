@@ -341,7 +341,13 @@ class Crud
         }
 
         $route_prefix = $this->setup->route_prefix ?? '';
-        $images_path = route($route_prefix . $this->setup->entity_name . '.images', $entity);
+
+        if (isset($this->setup->has_file) && $this->setup->has_file) {
+            $images_path = route($route_prefix . $this->setup->entity_name . '.images', $entity);
+        }
+        else {
+            $images_path = null;
+        }
 
         return view($this->viewName('edit'), [
             'theme' => config('crud.theme'),
