@@ -22,7 +22,7 @@
             {{ csrf_field() }}
         @endif
         <div class="dropzone-previews"></div>
-        <div id="images" class="uk-grid-small" uk-grid></div>
+        <div id="images" class="uk-grid-small" uk-grid uk-sortable="handle: .uk-sortable-handle"></div>
     </form>
 @endif
 
@@ -66,8 +66,9 @@
             $.get('{{ $images_path }}', function (images) {
                 $.each(images.data, function (i, image) {
                     $('#images').append(`
-                    <div>
+                    <div data-id="${image.id}">
                         <figure class="uk-card uk-card-default uk-card-body">
+                            <div class="uk-sortable-handle uk-position-center-left uk-padding-small uk-background-default" uk-icon="menu"></div>
                             <a href="#" class="js-remove uk-position-center-right uk-padding-small uk-background-default" data-id="${image.id}" uk-icon="trash"></a>
                             <img src="${image.thumb}">
                             <figcaption class="uk-text-center">${image.name}</figcaption>
@@ -81,6 +82,19 @@
                 axios.post('/admin/media/' + $(this).data('id') + '/delete')
                     .then(function () {
                         $figure.fadeOut();
+                    });
+            });
+
+            UIkit.util.on('#images', 'moved', function () {
+                var $images = document.getElementsByClassName('uk-sortable-item'),
+                    images = Array.from($images)
+                        .map(function (img) { return img.dataset.id; });
+
+                console.log(images);
+                
+                axios.post('/admin/media/sort', { images })
+                    .then(function () {
+                        console.log('Sort order saved');
                     });
             });
         </script>
