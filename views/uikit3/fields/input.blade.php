@@ -4,14 +4,17 @@
 
         <?php
         $value = $errors->any() ? old($name) : (isset($entity->{$name}) ? $entity->{$name} : '');
+        if ($type == 'date') {
+            $value = preg_replace('/ \S+$/', '', $value);
+        }
         ?>
         @if (!empty($field['after']))
-            <div class="uk-form-controls">>
+            <div class="uk-form-controls">
                 @include('crud::' . $theme . '.fields._input')
                 <span class="input-group-addon">{{ $field['after'] }}</span>
             </div>
         @elseif (!empty($field['button']))
-            <div class="uk-form-controls">>
+            <div class="uk-form-controls">
                 @include('crud::' . $theme . '.fields._input')
                 <span class="input-group-btn">{!! preg_replace_callback('/%([^%]+)%/', function ($matches) use ($entity)
                 {
