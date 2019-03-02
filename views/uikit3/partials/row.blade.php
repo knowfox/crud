@@ -13,7 +13,11 @@
                     <span class="badge badge-light">{{ $tag->name }}</span>
                 @endforeach
             @else
-                {{ $value }}
+                @if ($info['type'] == 'raw')
+                    {!! $value !!}
+                @else
+                    {{ $value }}
+                @endif
             @endif
         @endif
     @endif
