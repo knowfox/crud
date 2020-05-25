@@ -11,6 +11,8 @@ class DatabaseSetting extends Model implements Setting
     protected $fillable = ['name', 'value', 'field'];
     protected $casts = ['readonly' => 'boolean'];
 
+    public function get($name) { return config('crud.' . $name); }
+
     public function upgradeSchema()
     {
         $app_version = config('app.version', '0.1');

@@ -6,6 +6,8 @@ use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 use Illuminate\Support\Facades\View;
 use Knowfox\Crud\ViewComposers\SelectFieldComposer;
 use Knowfox\Crud\ViewComposers\TagsFieldComposer;
+use Knowfox\Crud\Models\Setting;
+use Knowfox\Crud\Models\ConfigSetting;
 
 class ServiceProvider extends IlluminateServiceProvider
 {
@@ -33,6 +35,11 @@ class ServiceProvider extends IlluminateServiceProvider
 
     public function register()
     {
+        $setting_class = config('crud.setting_class', '\\Knowfox\\Crud\\Models\\ConfigSetting');
+        $this->app->bind(
+            Setting::class,
+            $setting_class
+        );
         $this->mergeConfigFrom(
             __DIR__ . '/../setting.php', 'crud.setting'
         );

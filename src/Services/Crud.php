@@ -10,8 +10,6 @@
  */
 namespace Knowfox\Crud\Services;
 
-use App\Models\Idea;
-use App\Models\Inventor;
 use Illuminate\Database\Query\Builder;
 use Knowfox\Crud\Models\Setting;
 use App\Http\Controllers\Controller;
@@ -146,7 +144,7 @@ class Crud
         }
 
         $breadcrumbs = [
-            route('home') => __('Start'),
+            route(config('crud.home_route', 'home')) => __('Start'),
         ];
         if (!empty($this->setup->is_admin) && $this->setup->is_admin) {
             $breadcrumbs['#'] = __('Manage');
@@ -195,7 +193,7 @@ class Crud
     public function create($entity = null)
     {
         $breadcrumbs = [
-            route('home') => __('Start'),
+            route(config('crud.home_route', 'home')) => __('Start'),
         ];
         if (!empty($this->setup->is_admin) && $this->setup->is_admin) {
             $breadcrumbs['#'] = __('Manage');
@@ -330,7 +328,7 @@ class Crud
         }
         else {
             $breadcrumbs = [
-                route('home') => __('Start'),
+                route(config('crud.home_route', 'home')) => __('Start'),
             ];
             if (!empty($this->setup->is_admin) && $this->setup->is_admin) {
                 $breadcrumbs['#'] = __('Manage');
