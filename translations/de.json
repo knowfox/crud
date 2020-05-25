@@ -1,4 +1,8 @@
 {
-  "New :entity_title": "Neue:entity_title",
-  "New :entity_title created": "Neue:entity_title angelegt"
+  "New:entity_title": "Neue:entity_title",
+  "New:entity_title created": "Neue:entity_title angelegt",
+  "Edit :entity_title #:id": "Bearbeite :entity_title #:id",
+  "Changes to :entity_title saved": "Änderungen an :entity_title gespeichert",
+  "Save": "Speichern",
+  "Create": "Anlegen"
 }

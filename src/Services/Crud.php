@@ -319,9 +319,10 @@ class Crud
     public function edit(Model $entity, $options = [])
     {
         $page_title = __(
-            (!empty($options['verb']) ? $options['verb'] : 'Edit')
-            . ' ' . $this->stripPrefix($this->setup->entity_title[0])
-        ) . ' #' . $entity->id;
+            (!empty($options['verb']) ? $options['verb'] : 'Edit') . ' :entity_title #:id', [
+                'entity_title' => $this->stripPrefix($this->setup->entity_title[0]),
+                'id' => $entity->id,
+            ]);
 
         if (isset($options['breadcrumbs'])) {
             $breadcrumbs = $options['breadcrumbs'];

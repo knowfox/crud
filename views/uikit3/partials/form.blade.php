@@ -52,9 +52,9 @@
     <hr>
 
     @if ($mode == 'create' || !empty($button))
-        <button type="submit" class="uk-float-right uk-button uk-button-primary">{!! !empty($button) ? $button : ('<i class="glyphicon glyphicon-plus"></i>' . __('Create')) !!}</button>
+        <button type="submit" class="uk-float-right uk-button uk-button-primary">{!! !empty($button) ? $button : ('<i uk-icon="check"></i>' . __('Create')) !!}</button>
     @else
-        <button type="submit" class="uk-float-right uk-button uk-button-primary"><i class="glyphicon glyphicon-save"></i> @lang('Save')</button>
+        <button type="submit" class="uk-float-right uk-button uk-button-primary"><i uk-icon="check"></i> @lang('Save')</button>
     @endif
 
     @yield('buttons')
