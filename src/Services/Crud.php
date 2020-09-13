@@ -54,11 +54,24 @@ class Crud
         $this->setting->upgradeSchema();
     }
 
+    private function homeRoute()
+    {
+        if (!empty($this->setup->home_route)) {
+            return $this->setup->home_route;
+        }
+        return config('crud.home_route', 'home');
+    }
+
     private function viewName($suffix = '')
     {
         $view_name = '';
 
-        $package = config('crud.package');
+        if (!empty($this->setup->package)) {
+            $package = $this->setup->package;
+        }
+        else {
+            $package = config('crud.package');
+        }
         if (!empty($package)) {
             $view_name .= $package . '::';
         }
@@ -144,7 +157,7 @@ class Crud
         }
 
         $breadcrumbs = [
-            route(config('crud.home_route', 'home')) => __('Start'),
+            route($this->homeRoute()) => __('Start'),
         ];
         if (!empty($this->setup->is_admin) && $this->setup->is_admin) {
             $breadcrumbs['#'] = __('Manage');
@@ -193,7 +206,7 @@ class Crud
     public function create($entity = null)
     {
         $breadcrumbs = [
-            route(config('crud.home_route', 'home')) => __('Start'),
+            route($this->homeRoute()) => __('Start'),
         ];
         if (!empty($this->setup->is_admin) && $this->setup->is_admin) {
             $breadcrumbs['#'] = __('Manage');
@@ -329,7 +342,7 @@ class Crud
         }
         else {
             $breadcrumbs = [
-                route(config('crud.home_route', 'home')) => __('Start'),
+                route($this->homeRoute()) => __('Start'),
             ];
             if (!empty($this->setup->is_admin) && $this->setup->is_admin) {
                 $breadcrumbs['#'] = __('Manage');
