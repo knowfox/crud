@@ -33,9 +33,12 @@ class Crud
         $this->options(config($options));
     }
 
-    public function option($name, $value)
+    public function option($name, $value = null)
     {
-        $this->setup->{$name} = $value;
+        if ($value !== null) {
+            $this->setup->{$name} = $value;
+        }
+        return $this->setup->{$name};
     }
 
     public function options($options)
@@ -101,7 +104,7 @@ class Crud
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(\Illuminate\Http\Request $request, $entities = null)
+    public function index(\Illuminate\Http\Request $request, $entities = null, $postProcess = null)
     {
         assert(isset($this->setup->model), 'model is set');
         assert(isset($this->setup->order_by), 'order_by is set on '. $this->setup->model);
@@ -152,8 +155,12 @@ class Crud
             $entities->with($this->setup->with);
         }
 
+        if (isset($postProcess) && is_callable($postProcess)) {
+            $entities = call_user_func($postProcess, $request, $entities);
+        }
+
         if ($request->format() == 'json') {
-            return $entities->paginate();
+            return $entities;
         }
 
         $breadcrumbs = [
@@ -190,7 +197,7 @@ class Crud
             'downloads' => !empty($this->setup->downloads) && $this->setup->downloads,
             'no_result' => __('No ' . $this->setup->entity_title[1]),
             'columns' => $this->setup->columns,
-            'entities' => $entities->paginate(),
+            'entities' => $entities,
             'context' => $this->context,
             'breadcrumbs' => $breadcrumbs,
             'show' => !empty($this->setup->show) && $this->setup->show,
