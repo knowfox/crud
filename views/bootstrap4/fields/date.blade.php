@@ -1,1 +1,1 @@
-@include('crud::fields.input', ['type' => 'date', 'attr' => 'date-format="dd.mm.yyyy" lang="de"'])
+@include('crud::' . $theme . '.fields.input', ['type' => 'date', 'attr' => 'date-format="dd.mm.yyyy" lang="de"'])

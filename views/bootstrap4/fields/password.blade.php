@@ -1,1 +1,1 @@
-@include('crud::fields.input', ['type' => 'password'])
+@include('crud::' . $theme . '.fields.input', ['type' => 'password'])

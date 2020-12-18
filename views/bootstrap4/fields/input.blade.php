@@ -7,12 +7,12 @@
         ?>
         @if (!empty($field['after']))
             <div class="input-group">
-                @include('crud::fields._input')
+                @include('crud::' . $theme . '.fields._input')
                 <span class="input-group-addon">{{ $field['after'] }}</span>
             </div>
         @elseif (!empty($field['button']))
             <div class="input-group">
-                @include('crud::fields._input')
+                @include('crud::' . $theme . '.fields._input')
                 <span class="input-group-btn">{!! preg_replace_callback('/%([^%]+)%/', function ($matches) use ($entity)
                 {
                     $field = $matches[1];
@@ -21,7 +21,7 @@
                 }, $field['button']) !!}</span>
             </div>
         @else
-            @include('crud::fields._input')
+            @include('crud::' . $theme . '.fields._input')
         @endif
 
     </div>
