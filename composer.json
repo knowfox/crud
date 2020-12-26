@@ -3,7 +3,7 @@
     "description": "A CRUD generator for Laravel",
     "type": "laravel-package",
     "require": {
-        "illuminate/support": "^5.4",
+        "illuminate/support": "^5.4 || ^8.0",
         "composer/installers": "1.*"
     },
     "license": "LGPL-3.0-or-later",
