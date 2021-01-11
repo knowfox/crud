@@ -3,7 +3,7 @@ $value = !empty($entity->{$name}) ? $entity->{$name} : '';
 $type = is_numeric($value) ? 'number' : 'text';
 ?>
 
-@include('crud::fields.input', [
+@include('crud::' . $theme . '.fields.input', [
     'type' => $type,
     'attr' => 'readonly ',
 ])
