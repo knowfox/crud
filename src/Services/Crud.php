@@ -10,8 +10,6 @@
  */
 namespace Knowfox\Crud\Services;
 
-use App\Models\Idea;
-use App\Models\Inventor;
 use Illuminate\Database\Query\Builder;
 use Knowfox\Crud\Models\Setting;
 use App\Http\Controllers\Controller;
@@ -35,9 +33,12 @@ class Crud
         $this->options(config($options));
     }
 
-    public function option($name, $value)
+    public function option($name, $value = null)
     {
-        $this->setup->{$name} = $value;
+        if ($value !== null) {
+            $this->setup->{$name} = $value;
+        }
+        return $this->setup->{$name};
     }
 
     public function options($options)
@@ -56,11 +57,24 @@ class Crud
         $this->setting->upgradeSchema();
     }
 
+    private function homeRoute()
+    {
+        if (!empty($this->setup->home_route)) {
+            return $this->setup->home_route;
+        }
+        return config('crud.home_route', 'home');
+    }
+
     private function viewName($suffix = '')
     {
         $view_name = '';
 
-        $package = config('crud.package');
+        if (!empty($this->setup->package)) {
+            $package = $this->setup->package;
+        }
+        else {
+            $package = config('crud.package');
+        }
         if (!empty($package)) {
             $view_name .= $package . '::';
         }
@@ -90,7 +104,7 @@ class Crud
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(\Illuminate\Http\Request $request, $entities = null)
+    public function index(\Illuminate\Http\Request $request, $entities = null, $postProcess = null)
     {
         assert(isset($this->setup->model), 'model is set');
         assert(isset($this->setup->order_by), 'order_by is set on '. $this->setup->model);
@@ -141,12 +155,16 @@ class Crud
             $entities->with($this->setup->with);
         }
 
+        if (isset($postProcess) && is_callable($postProcess)) {
+            $entities = call_user_func($postProcess, $request, $entities);
+        }
+
         if ($request->format() == 'json') {
-            return $entities->paginate();
+            return $entities;
         }
 
         $breadcrumbs = [
-            route('home') => __('Start'),
+            route($this->homeRoute()) => __('Start'),
         ];
         if (!empty($this->setup->is_admin) && $this->setup->is_admin) {
             $breadcrumbs['#'] = __('Manage');
@@ -179,7 +197,7 @@ class Crud
             'downloads' => !empty($this->setup->downloads) && $this->setup->downloads,
             'no_result' => __('No ' . $this->setup->entity_title[1]),
             'columns' => $this->setup->columns,
-            'entities' => $entities->paginate(),
+            'entities' => $entities,
             'context' => $this->context,
             'breadcrumbs' => $breadcrumbs,
             'show' => !empty($this->setup->show) && $this->setup->show,
@@ -195,7 +213,7 @@ class Crud
     public function create($entity = null)
     {
         $breadcrumbs = [
-            route('home') => __('Start'),
+            route($this->homeRoute()) => __('Start'),
         ];
         if (!empty($this->setup->is_admin) && $this->setup->is_admin) {
             $breadcrumbs['#'] = __('Manage');
@@ -321,16 +339,17 @@ class Crud
     public function edit(Model $entity, $options = [])
     {
         $page_title = __(
-            (!empty($options['verb']) ? $options['verb'] : 'Edit')
-            . ' ' . $this->stripPrefix($this->setup->entity_title[0])
-        ) . ' #' . $entity->id;
+            (!empty($options['verb']) ? $options['verb'] : 'Edit') . ' :entity_title #:id', [
+                'entity_title' => $this->stripPrefix($this->setup->entity_title[0]),
+                'id' => $entity->id,
+            ]);
 
         if (isset($options['breadcrumbs'])) {
             $breadcrumbs = $options['breadcrumbs'];
         }
         else {
             $breadcrumbs = [
-                route('home') => __('Start'),
+                route($this->homeRoute()) => __('Start'),
             ];
             if (!empty($this->setup->is_admin) && $this->setup->is_admin) {
                 $breadcrumbs['#'] = __('Manage');

@@ -4,7 +4,11 @@
         <select name="{{ $name }}" class="uk-select">
             @if (!empty($options))
                 @foreach ($options as $key => $value)
-                    <option{!! !empty($entity) && $entity->{$name} == $key ? ' selected' : '' !!} value="{{ $key }}">{{ $value }}</option>
+                    <option{!! 
+                           !empty($entity) && $entity->{$name} == $key
+                        || !empty($field['default']) && $field['default'] == $key
+                            ? ' selected' 
+                            : '' !!} value="{{ $key }}">{{ $value }}</option>
                 @endforeach
             @endif
         </select>
@@ -14,6 +18,12 @@
 @push('scripts')
     <script>
         var {{ $name }}_options = {!! isset($options) ? json_encode($options) : 'null' !!};
-            {{ $name  }}_selected = "{{ !empty($entity) ? htmlentities($entity->{$name}) : '' }}";
+            {{ $name  }}_selected = "{{ 
+                !empty($entity) 
+                    ? htmlentities($entity->{$name}) 
+                    : ( !empty($field['default'])
+                        ? $field['default']
+                        : ''
+                    ) }}";
     </script>
 @endpush

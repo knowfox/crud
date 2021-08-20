@@ -1,6 +1,7 @@
 <?php
 
 use Knowfox\Crud\Models\Setting;
+use Knowfox\Crud\Models\DatabaseSetting;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -14,7 +15,9 @@ class CreateSettingsTable extends Migration
      */
     public function up()
     {
-        if (!method_exists(Setting::class, 'create')) {
+        $setting = app(Setting::class);
+
+        if (!preg_match('/DatabaseSetting$/', get_class($setting))) {
             return;
         }
 
@@ -27,7 +30,7 @@ class CreateSettingsTable extends Migration
             $table->timestamps();
         });
 
-        Setting::create([
+        DatabaseSetting::create([
             'name' => 'setting_types',
             'value' => '["simple","table"]',
             'field' => 'table',

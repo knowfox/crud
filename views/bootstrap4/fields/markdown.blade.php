@@ -15,7 +15,7 @@
                 uniqueId: location.href.replace('/', '-') + '-{{ $name }}'
             },
             spellChecker: false,
-            toolbar: [
+            toolbar: false /*[
                 {
                     name: "bold",
                     action: InscrybMDE.toggleBold,
@@ -72,7 +72,7 @@
                     className: "fa fa-table fa-fw",
                     title: "Insert Table"
                 }
-            ]
+            ]*/
         });
 
     </script>

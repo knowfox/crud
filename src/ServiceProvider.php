@@ -6,6 +6,8 @@ use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 use Illuminate\Support\Facades\View;
 use Knowfox\Crud\ViewComposers\SelectFieldComposer;
 use Knowfox\Crud\ViewComposers\TagsFieldComposer;
+use Knowfox\Crud\Models\Setting;
+use Knowfox\Crud\Models\ConfigSetting;
 
 class ServiceProvider extends IlluminateServiceProvider
 {
@@ -24,7 +26,7 @@ class ServiceProvider extends IlluminateServiceProvider
         $this->loadMigrationsFrom(__DIR__ . '/../migrations');
         $this->loadViewsFrom(__DIR__ . '/../views', 'crud');
         $this->loadRoutesFrom(__DIR__ . '/../routes.php');
-        $this->loadTranslationsFrom(__DIR__ . '/../translations', 'crud');
+        $this->loadJsonTranslationsFrom(__DIR__ . '/../translations');
 
         $this->publishes([
             __DIR__ . '/../crud.php' => config_path('crud.php'),
@@ -33,6 +35,11 @@ class ServiceProvider extends IlluminateServiceProvider
 
     public function register()
     {
+        $setting_class = config('crud.setting_class', '\\Knowfox\\Crud\\Models\\ConfigSetting');
+        $this->app->bind(
+            Setting::class,
+            $setting_class
+        );
         $this->mergeConfigFrom(
             __DIR__ . '/../setting.php', 'crud.setting'
         );

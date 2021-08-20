@@ -11,9 +11,11 @@ class SelectFieldComposer
     {
         $data = $view->getData();
 
-        $options = [
-            '' => __('-- not set --'),
-        ];
+        $options = [];
+
+        if (!isset($data['field']['empty']) || $data['field']['empty']) {
+            $options[''] = __('-- not set --');
+        }
 
         /**
          * $options may be set explicitely ...
