@@ -16,8 +16,8 @@
             @endif
         </div>
 
-        @include('crud::partials.breadcrumbs')
-        @include('crud::partials.messages')
+        @include('crud::' . $theme . '.partials.breadcrumbs')
+        @include('crud::' . $theme . '.partials.messages')
 
         <div class="row justify-content-center">
             <div class="col-10">
@@ -66,16 +66,16 @@
                                                         $value = '--';
                                                     }
                                                     ?>
-                                                    @include('crud::partials.row', ['value' => $value])
+                                                    @include('crud::' . $theme . '.partials.row', ['value' => $value])
                                                 @else
-                                                    @include('crud::partials.row', ['value' => $entity->{$col}])
+                                                    @include('crud::' . $theme . '.partials.row', ['value' => $entity->{$col}])
                                                 @endif
                                                 <?php $i++; ?>
                                             </td>
                                         @endforeach
                                         <td class="text-right">
                                             @if (!Auth::guest() && !isset($entity->readonly) || !$entity->readonly)
-                                                @include('crud::partials.actions', ['entity' => $entity])
+                                                @include('crud::' . $theme . '.partials.actions', ['entity' => $entity])
                                             @endif
                                         </td>
                                     </tr>

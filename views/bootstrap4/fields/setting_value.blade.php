@@ -1,5 +1,5 @@
 @if (isset($entity->field) && $entity->field == 'table')
-    @include('crud::fields.table')
+    @include('crud::' . $theme . '.fields.table')
 @else
-    @include('crud::fields.textarea')
+    @include('crud::' . $theme . '.fields.textarea')
 @endif

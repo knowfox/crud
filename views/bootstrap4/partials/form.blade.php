@@ -25,11 +25,11 @@
 
                 @foreach ($fields as $name => $field)
                     @if(is_string($field))
-                        @include('crud::fields.text', [
+                        @include('crud::' . $theme . '.fields.text', [
                             'field' => [ 'label' => $field ]
                         ])
                     @else
-                        @include('crud::fields.' . (isset($field['type']) ? $field['type'] : 'text'))
+                        @include('crud::' . $theme . '.fields.' . (isset($field['type']) ? $field['type'] : 'text'))
                     @endif
                 @endforeach
 

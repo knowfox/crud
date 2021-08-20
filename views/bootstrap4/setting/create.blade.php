@@ -1,1 +1,1 @@
-@extends('crud::create')
+@extends('crud::' . $theme . '.create')

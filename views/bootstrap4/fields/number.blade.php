@@ -1,1 +1,1 @@
-@include('crud::fields.input', ['type' => 'number', 'attr' => 'min="0" step="1" '])
+@include('crud::' . $theme . '.fields.input', ['type' => 'number', 'attr' => 'min="0" step="1" '])

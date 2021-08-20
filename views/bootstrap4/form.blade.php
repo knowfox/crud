@@ -9,9 +9,9 @@
             </div>
         </div>
 
-        @include('crud::partials.breadcrumbs')
-        @include('crud::partials.messages')
+        @include('crud::' . $theme . '.partials.breadcrumbs')
+        @include('crud::' . $theme . '.partials.messages')
 
-        @include('crud::partials.form')
+        @include('crud::' . $theme . '.partials.form')
     </div>
 @endsection
