@@ -1,4 +1,4 @@
-<div class="col-sm-{{ $field['cols'] or 12 }}">
+<div class="col-sm-{{ $field['cols'] ?? 12 }}">
     <label>Werte</label>
     <ul class="list-group" id="items"></ul>
     <button class="btn btn-default" id="add-item"><i class="fas fa-plus-square"></i> @lang('New entry')</button>

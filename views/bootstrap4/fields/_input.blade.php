@@ -1,1 +1,1 @@
-<input {!! $attr or '' !!}type="{{ $type }}" class="form-control" name="{{ $name }}" id="{{ $name }}-field" value="{{ $value }}">
+<input {!! $attr ?? '' !!}type="{{ $type }}" class="form-control" name="{{ $name }}" id="{{ $name }}-field" value="{{ $value }}">
