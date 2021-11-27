@@ -197,7 +197,7 @@ class Crud
             'downloads' => !empty($this->setup->downloads) && $this->setup->downloads,
             'no_result' => __('No ' . $this->setup->entity_title[1]),
             'columns' => $this->setup->columns,
-            'entities' => $entities,
+            'entities' => $entities->paginate(),
             'context' => $this->context,
             'breadcrumbs' => $breadcrumbs,
             'show' => !empty($this->setup->show) && $this->setup->show,
@@ -338,11 +338,16 @@ class Crud
      */
     public function edit(Model $entity, $options = [])
     {
-        $page_title = __(
-            (!empty($options['verb']) ? $options['verb'] : 'Edit') . ' :entity_title #:id', [
-                'entity_title' => $this->stripPrefix($this->setup->entity_title[0]),
-                'id' => $entity->id,
-            ]);
+        if (isset($options['page_title'])) {
+            $page_title = $options['page_title'];
+        }
+        else {
+            $page_title = __(
+                (!empty($options['verb']) ? $options['verb'] : 'Edit') . ' :entity_title #:id', [
+                    'entity_title' => $this->stripPrefix($this->setup->entity_title[0]),
+                    'id' => $entity->id,
+                ]);
+        }
 
         if (isset($options['breadcrumbs'])) {
             $breadcrumbs = $options['breadcrumbs'];
