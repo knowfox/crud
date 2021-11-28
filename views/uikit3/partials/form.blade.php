@@ -11,7 +11,7 @@
     }
 @endphp
 
-@yield('above-fields')
+@yield('above-form')
 
 @if ($mode != 'create' && $has_file)
     <form id="dropzone" class="dropzone uk-margin" enctype="multipart/form-data" action="{{ $action }}" method="{{ $method }}">
@@ -36,6 +36,8 @@
 
 
     <div uk-grid>
+        @yield('above-fields')
+
         @foreach ($fields as $name => $field)
             @if(is_string($field))
                 @include('crud::' . $theme . '.fields.text', [
@@ -49,7 +51,7 @@
         @yield('below-fields')
     </div>
 
-    <hr>
+    <hr class="uk-margin">
 
     @if ($mode == 'create' || !empty($button))
         <button type="submit" class="uk-float-right uk-button uk-button-primary">{!! !empty($button) ? $button : ('<i uk-icon="check"></i>' . __('Create')) !!}</button>
@@ -60,10 +62,12 @@
     @yield('buttons')
 </form>
 
+@yield('below-form')
+
 @push('scripts')
     @if ($mode != 'create' && $has_file)
         <script>
-            $.get('{{ $images_path }}', function (images) {
+            axios.get('{{ $images_path }}', function (images) {
                 $.each(images.data, function (i, image) {
                     $('#images').append(`
                     <div data-id="${image.id}">

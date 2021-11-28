@@ -13,6 +13,7 @@ namespace Knowfox\Crud\Services;
 use Illuminate\Database\Query\Builder;
 use Knowfox\Crud\Models\Setting;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Http\FormRequest as Request;
 
@@ -285,7 +286,7 @@ class Crud
                 ->usingName($filename)
                 ->usingFileName($filename)
                 ->sanitizingFileName(function($filename) {
-                    return str_slug($filename);
+                    return Str::slug($filename);
                 })
                 ->toMediaCollection('images');
         }

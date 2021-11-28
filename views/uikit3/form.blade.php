@@ -6,7 +6,7 @@
         @include('crud::' . $theme . '.partials.breadcrumbs')
 
         <div class="uk-flex uk-flex-between">
-            <h1 class="uk-heading-primary uk-heading-bullet">{!! $page_title !!}</h1>
+            <h1 class="uk-heading-medium uk-heading-bullet">{!! $page_title !!}</h1>
         </div>
 
         @include('crud::' . $theme . '.partials.messages')
